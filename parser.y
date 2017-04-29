@@ -121,17 +121,16 @@ MethodName      : T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_LAMBDA ReturnType T
                 ;
 
 
-InnerScopeMethod: Declarations Statements ReturnStatement
-                | Declarations Statements
+InnerScopeMethod: Declaration Statements ReturnStatement
+                | Declaration Statements
                 | Statements
-                |
                 ;
 
 
 
-Declarations    : ClassMembers
-                |
-                ;
+Declaration    : Declaration Type T_ID T_SEMICOLON
+               | Type T_ID T_SEMICOLON
+               ;
 
 Statements      : Statements Statement
                 | Statement

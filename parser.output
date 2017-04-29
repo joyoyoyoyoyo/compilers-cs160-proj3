@@ -12,38 +12,35 @@ Terminals unused in grammar
 
 Rules useless in grammar
 
-   83 ParameterSeq: T_COMMA T_ID T_COLON Type ParameterSeq
-   84             | T_COMMA T_ID T_COLON Type
-   85             | %empty
+   82 ParameterSeq: T_COMMA T_ID T_COLON Type ParameterSeq
+   83             | T_COMMA T_ID T_COLON Type
+   84             | %empty
 
 
 Rules useless in parser due to conflicts
 
-   25 InnerScopeMethod: %empty
+   11 ClassMembers: %empty
 
-   27 Declarations: %empty
-
-   57 ReturnStatement: %empty
+   56 ReturnStatement: %empty
 
 
 State 5 conflicts: 2 shift/reduce
 State 21 conflicts: 1 reduce/reduce
 State 23 conflicts: 2 shift/reduce
-State 27 conflicts: 3 shift/reduce, 9 reduce/reduce
-State 48 conflicts: 8 shift/reduce, 9 reduce/reduce
+State 27 conflicts: 1 shift/reduce, 2 reduce/reduce
+State 48 conflicts: 8 shift/reduce, 8 reduce/reduce
 State 52 conflicts: 1 shift/reduce
 State 53 conflicts: 1 shift/reduce
 State 54 conflicts: 1 shift/reduce
-State 58 conflicts: 7 shift/reduce, 9 reduce/reduce
-State 59 conflicts: 7 shift/reduce, 8 reduce/reduce
-State 68 conflicts: 8 shift/reduce, 9 reduce/reduce
+State 57 conflicts: 7 shift/reduce, 9 reduce/reduce
+State 58 conflicts: 7 shift/reduce, 8 reduce/reduce
+State 67 conflicts: 8 shift/reduce, 8 reduce/reduce
+State 70 conflicts: 1 shift/reduce
 State 71 conflicts: 1 shift/reduce
-State 72 conflicts: 1 shift/reduce
-State 74 conflicts: 1 shift/reduce
-State 83 conflicts: 1 shift/reduce, 17 reduce/reduce
-State 85 conflicts: 8 shift/reduce, 9 reduce/reduce
-State 88 conflicts: 1 shift/reduce
-State 99 conflicts: 1 shift/reduce
+State 73 conflicts: 1 shift/reduce
+State 82 conflicts: 1 shift/reduce, 17 reduce/reduce
+State 84 conflicts: 8 shift/reduce, 9 reduce/reduce
+State 89 conflicts: 1 shift/reduce
 State 100 conflicts: 1 shift/reduce
 State 101 conflicts: 1 shift/reduce
 State 102 conflicts: 1 shift/reduce
@@ -52,19 +49,20 @@ State 104 conflicts: 1 shift/reduce
 State 105 conflicts: 1 shift/reduce
 State 106 conflicts: 1 shift/reduce
 State 107 conflicts: 1 shift/reduce
-State 109 conflicts: 1 shift/reduce, 17 reduce/reduce
+State 108 conflicts: 1 shift/reduce
 State 110 conflicts: 1 shift/reduce, 17 reduce/reduce
-State 112 conflicts: 1 shift/reduce
-State 113 conflicts: 1 shift/reduce, 17 reduce/reduce
-State 114 conflicts: 1 shift/reduce
-State 121 conflicts: 1 shift/reduce
-State 135 conflicts: 1 shift/reduce, 17 reduce/reduce
-State 137 conflicts: 1 shift/reduce, 17 reduce/reduce
-State 141 conflicts: 1 shift/reduce
-State 152 conflicts: 1 shift/reduce
-State 164 conflicts: 1 shift/reduce
-State 168 conflicts: 1 shift/reduce, 17 reduce/reduce
-State 171 conflicts: 1 shift/reduce, 17 reduce/reduce
+State 111 conflicts: 1 shift/reduce, 17 reduce/reduce
+State 113 conflicts: 1 shift/reduce
+State 114 conflicts: 1 shift/reduce, 17 reduce/reduce
+State 115 conflicts: 1 shift/reduce
+State 124 conflicts: 1 shift/reduce
+State 138 conflicts: 1 shift/reduce, 17 reduce/reduce
+State 140 conflicts: 1 shift/reduce, 17 reduce/reduce
+State 144 conflicts: 1 shift/reduce
+State 156 conflicts: 1 shift/reduce
+State 168 conflicts: 1 shift/reduce
+State 172 conflicts: 1 shift/reduce, 17 reduce/reduce
+State 175 conflicts: 1 shift/reduce, 17 reduce/reduce
 
 
 Grammar
@@ -101,123 +99,124 @@ Grammar
    20           | T_ID T_OPENPAREN T_CLOSEPAREN T_LAMBDA ReturnType T_OPEN_BRACKET InnerScopeMethod T_CLOSE_BRACKET
    21           | T_ID T_OPENPAREN T_CLOSEPAREN T_LAMBDA ReturnType T_OPEN_BRACKET T_CLOSE_BRACKET
 
-   22 InnerScopeMethod: Declarations Statements ReturnStatement
-   23                 | Declarations Statements
+   22 InnerScopeMethod: Declaration Statements ReturnStatement
+   23                 | Declaration Statements
    24                 | Statements
-   25                 | %empty
 
-   26 Declarations: ClassMembers
-   27             | %empty
+   25 Declaration: Declaration Type T_ID T_SEMICOLON
+   26            | Type T_ID T_SEMICOLON
 
-   28 Statements: Statements Statement
-   29           | Statement
-   30           | %empty
+   27 Statements: Statements Statement
+   28           | Statement
+   29           | %empty
 
-   31 Statement: Assignment
-   32          | MethodCall
-   33          | IfElse
-   34          | While
-   35          | RepeatUntil
-   36          | Print
+   30 Statement: Assignment
+   31          | MethodCall
+   32          | IfElse
+   33          | While
+   34          | RepeatUntil
+   35          | Print
 
-   37 Assignment: Type T_ASSIGN Exp T_SEMICOLON
-   38           | T_ID T_DOT T_ID T_ASSIGN Exp T_SEMICOLON
-   39           | %empty
+   36 Assignment: Type T_ASSIGN Exp T_SEMICOLON
+   37           | T_ID T_DOT T_ID T_ASSIGN Exp T_SEMICOLON
+   38           | %empty
 
-   40 MethodCall: T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
-   41           | T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
-   42           | T_ID T_DOT T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
-   43           | T_ID T_DOT T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
-   44           | %empty
+   39 MethodCall: T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
+   40           | T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
+   41           | T_ID T_DOT T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
+   42           | T_ID T_DOT T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
+   43           | %empty
 
-   45 IfElse: T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET
-   46       | T_IF Exp T_OPEN_BRACKET T_CLOSE_BRACKET
-   47       | T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Block T_CLOSE_BRACKET
-   48       | T_IF Exp T_OPEN_BRACKET T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET T_CLOSE_BRACKET
+   44 IfElse: T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET
+   45       | T_IF Exp T_OPEN_BRACKET T_CLOSE_BRACKET
+   46       | T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Block T_CLOSE_BRACKET
+   47       | T_IF Exp T_OPEN_BRACKET T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET T_CLOSE_BRACKET
 
-   49 While: T_WHILE Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET
-   50      | T_WHILE Exp T_OPEN_BRACKET T_CLOSE_BRACKET
+   48 While: T_WHILE Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET
+   49      | T_WHILE Exp T_OPEN_BRACKET T_CLOSE_BRACKET
 
-   51 RepeatUntil: T_REPEAT T_OPEN_BRACKET Block T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
-   52            | T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
+   50 RepeatUntil: T_REPEAT T_OPEN_BRACKET Block T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
+   51            | T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
 
-   53 Print: T_PRINT Exp T_SEMICOLON
+   52 Print: T_PRINT Exp T_SEMICOLON
 
-   54 Block: Block Statement Exp T_SEMICOLON
-   55      | Statement Exp T_SEMICOLON
+   53 Block: Block Statement Exp T_SEMICOLON
+   54      | Statement Exp T_SEMICOLON
 
-   56 ReturnStatement: T_RETURN Exp T_SEMICOLON
-   57                | %empty
+   55 ReturnStatement: T_RETURN Exp T_SEMICOLON
+   56                | %empty
 
-   58 Type: T_INTEGER
-   59     | T_BOOL
-   60     | T_ID
+   57 Type: T_INTEGER
+   58     | T_BOOL
+   59     | T_ID
 
-   61 ReturnType: Type
-   62           | T_NONE
+   60 ReturnType: Type
+   61           | T_NONE
 
-   63 Exp: Exp T_PLUS Exp
-   64    | Exp T_MINUS Exp
-   65    | Exp T_MULTIPLY Exp
-   66    | Exp T_DIVIDE Exp
-   67    | Exp T_LSS Exp
-   68    | Exp T_LEQ Exp
-   69    | Exp T_EQUIVALENCE Exp
-   70    | Exp T_AND Exp
-   71    | Exp T_OR Exp
-   72    | T_NOT Exp
-   73    | T_MINUS Exp
-   74    | T_ID
-   75    | T_ID T_DOT T_ID
-   76    | MethodCall
-   77    | T_OPENPAREN Exp T_CLOSEPAREN
-   78    | T_NUMBER
-   79    | T_TRUE
-   80    | T_FALSE
-   81    | T_NEW T_ID
-   82    | T_NEW T_ID T_OPENPAREN Parameters T_CLOSEPAREN
+   62 Exp: Exp T_PLUS Exp
+   63    | Exp T_MINUS Exp
+   64    | Exp T_MULTIPLY Exp
+   65    | Exp T_DIVIDE Exp
+   66    | Exp T_LSS Exp
+   67    | Exp T_LEQ Exp
+   68    | Exp T_EQUIVALENCE Exp
+   69    | Exp T_AND Exp
+   70    | Exp T_OR Exp
+   71    | T_NOT Exp
+   72    | T_MINUS Exp
+   73    | T_ID
+   74    | T_ID T_DOT T_ID
+   75    | MethodCall
+   76    | T_OPENPAREN Exp T_CLOSEPAREN
+   77    | T_NUMBER
+   78    | T_TRUE
+   79    | T_FALSE
+   80    | T_NEW T_ID
+   81    | T_NEW T_ID T_OPENPAREN Parameters T_CLOSEPAREN
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-T_PLUS (258) 63
-T_MINUS (259) 64 73
-T_MULTIPLY (260) 65
-T_DIVIDE (261) 66
-T_LSS (262) 67
-T_LEQ (263) 68
-T_EQUIVALENCE (264) 69
-T_AND (265) 70
-T_OR (266) 71
-T_NOT (267) 72
-T_ID (268) 4 5 6 7 9 10 17 18 19 20 21 38 40 41 42 43 60 74 75 81 82
-T_OPENPAREN (269) 18 19 20 21 40 41 42 43 51 52 77 82
-T_CLOSEPAREN (270) 18 19 20 21 40 41 42 43 77 82
-T_OPEN_BRACKET (271) 4 5 6 7 18 19 20 21 45 46 47 48 49 50 51 52
-T_CLOSE_BRACKET (272) 4 5 6 7 18 19 20 21 45 46 47 48 49 50 51 52
-T_INTEGER (273) 58
-T_NUMBER (274) 78
-T_TRUE (275) 79
-T_FALSE (276) 80
-T_SEMICOLON (277) 4 5 6 7 9 10 37 38 40 41 42 43 51 52 53 54 55 56
+T_PLUS (258) 62
+T_MINUS (259) 63 72
+T_MULTIPLY (260) 64
+T_DIVIDE (261) 65
+T_LSS (262) 66
+T_LEQ (263) 67
+T_EQUIVALENCE (264) 68
+T_AND (265) 69
+T_OR (266) 70
+T_NOT (267) 71
+T_ID (268) 4 5 6 7 9 10 17 18 19 20 21 25 26 37 39 40 41 42 59 73 74
+    80 81
+T_OPENPAREN (269) 18 19 20 21 39 40 41 42 50 51 76 81
+T_CLOSEPAREN (270) 18 19 20 21 39 40 41 42 76 81
+T_OPEN_BRACKET (271) 4 5 6 7 18 19 20 21 44 45 46 47 48 49 50 51
+T_CLOSE_BRACKET (272) 4 5 6 7 18 19 20 21 44 45 46 47 48 49 50 51
+T_INTEGER (273) 57
+T_NUMBER (274) 77
+T_TRUE (275) 78
+T_FALSE (276) 79
+T_SEMICOLON (277) 4 5 6 7 9 10 25 26 36 37 39 40 41 42 50 51 52 53
+    54 55
 T_NEWLN (278)
 T_EOF (279)
-T_ASSIGN (280) 37 38
-T_NONE (281) 62
-T_PRINT (282) 53
-T_RETURN (283) 56
-T_IF (284) 45 46 47 48
-T_ELSE (285) 47 48
-T_WHILE (286) 49 50
-T_NEW (287) 81 82
-T_BOOL (288) 59
+T_ASSIGN (280) 36 37
+T_NONE (281) 61
+T_PRINT (282) 52
+T_RETURN (283) 55
+T_IF (284) 44 45 46 47
+T_ELSE (285) 46 47
+T_WHILE (286) 48 49
+T_NEW (287) 80 81
+T_BOOL (288) 58
 T_EXTENDS (289) 6 7
-T_REPEAT (290) 51 52
-T_UNTIL (291) 51 52
+T_REPEAT (290) 50 51
+T_UNTIL (291) 50 51
 T_FOR (292)
-T_DOT (293) 38 42 43 75
+T_DOT (293) 37 41 42 74
 T_COMMA (294) 15
 T_UNARY (295)
 T_LAMBDA (296) 18 19 20 21
@@ -237,47 +236,47 @@ ClassName (46)
 InnerScopeClass (47)
     on left: 8, on right: 5 7
 ClassMembers (48)
-    on left: 9 10 11, on right: 8 9 26
+    on left: 9 10 11, on right: 8 9
 ClassMethods (49)
     on left: 12 13 14, on right: 8 12
 Parameters (50)
-    on left: 15 16, on right: 15 18 19 40 42 82
+    on left: 15 16, on right: 15 18 19 39 41 81
 Parameter (51)
     on left: 17, on right: 15 16
 MethodName (52)
     on left: 18 19 20 21, on right: 12 13
 InnerScopeMethod (53)
-    on left: 22 23 24 25, on right: 18 20
-Declarations (54)
-    on left: 26 27, on right: 22 23
+    on left: 22 23 24, on right: 18 20
+Declaration (54)
+    on left: 25 26, on right: 22 23 25
 Statements (55)
-    on left: 28 29 30, on right: 22 23 24 28
+    on left: 27 28 29, on right: 22 23 24 27
 Statement (56)
-    on left: 31 32 33 34 35 36, on right: 28 29 54 55
+    on left: 30 31 32 33 34 35, on right: 27 28 53 54
 Assignment (57)
-    on left: 37 38 39, on right: 31
+    on left: 36 37 38, on right: 30
 MethodCall (58)
-    on left: 40 41 42 43 44, on right: 32 76
+    on left: 39 40 41 42 43, on right: 31 75
 IfElse (59)
-    on left: 45 46 47 48, on right: 33
+    on left: 44 45 46 47, on right: 32
 While (60)
-    on left: 49 50, on right: 34
+    on left: 48 49, on right: 33
 RepeatUntil (61)
-    on left: 51 52, on right: 35
+    on left: 50 51, on right: 34
 Print (62)
-    on left: 53, on right: 36
+    on left: 52, on right: 35
 Block (63)
-    on left: 54 55, on right: 45 47 49 51 54
+    on left: 53 54, on right: 44 46 48 50 53
 ReturnStatement (64)
-    on left: 56 57, on right: 22
+    on left: 55 56, on right: 22
 Type (65)
-    on left: 58 59 60, on right: 9 10 17 37 61
+    on left: 57 58 59, on right: 9 10 17 25 26 36 60
 ReturnType (66)
-    on left: 61 62, on right: 18 19 20 21
+    on left: 60 61, on right: 18 19 20 21
 Exp (67)
-    on left: 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-    81 82, on right: 37 38 45 46 47 48 49 50 51 52 53 54 55 56 63 64
-    65 66 67 68 69 70 71 72 73 77
+    on left: 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79
+    80 81, on right: 36 37 44 45 46 47 48 49 50 51 52 53 54 55 62 63
+    64 65 66 67 68 69 70 71 72 76
 
 
 State 0
@@ -370,9 +369,9 @@ State 8
 
 State 9
 
-   60 Type: T_ID .
+   59 Type: T_ID .
 
-    $default  reduce using rule 60 (Type)
+    $default  reduce using rule 59 (Type)
 
 
 State 10
@@ -384,16 +383,16 @@ State 10
 
 State 11
 
-   58 Type: T_INTEGER .
+   57 Type: T_INTEGER .
 
-    $default  reduce using rule 58 (Type)
+    $default  reduce using rule 57 (Type)
 
 
 State 12
 
-   59 Type: T_BOOL .
+   58 Type: T_BOOL .
 
-    $default  reduce using rule 59 (Type)
+    $default  reduce using rule 58 (Type)
 
 
 State 13
@@ -544,20 +543,6 @@ State 27
     T_ID             [reduce using rule 11 (ClassMembers)]
     T_CLOSE_BRACKET  reduce using rule 10 (ClassMembers)
     T_CLOSE_BRACKET  [reduce using rule 11 (ClassMembers)]
-    T_INTEGER        [reduce using rule 10 (ClassMembers)]
-    T_INTEGER        [reduce using rule 11 (ClassMembers)]
-    T_PRINT          reduce using rule 10 (ClassMembers)
-    T_PRINT          [reduce using rule 11 (ClassMembers)]
-    T_RETURN         reduce using rule 10 (ClassMembers)
-    T_RETURN         [reduce using rule 11 (ClassMembers)]
-    T_IF             reduce using rule 10 (ClassMembers)
-    T_IF             [reduce using rule 11 (ClassMembers)]
-    T_WHILE          reduce using rule 10 (ClassMembers)
-    T_WHILE          [reduce using rule 11 (ClassMembers)]
-    T_BOOL           [reduce using rule 10 (ClassMembers)]
-    T_BOOL           [reduce using rule 11 (ClassMembers)]
-    T_REPEAT         reduce using rule 10 (ClassMembers)
-    T_REPEAT         [reduce using rule 11 (ClassMembers)]
     $default         reduce using rule 10 (ClassMembers)
 
     ClassMembers  go to state 34
@@ -689,16 +674,16 @@ State 42
 
 State 43
 
-   62 ReturnType: T_NONE .
+   61 ReturnType: T_NONE .
 
-    $default  reduce using rule 62 (ReturnType)
+    $default  reduce using rule 61 (ReturnType)
 
 
 State 44
 
-   61 ReturnType: Type .
+   60 ReturnType: Type .
 
-    $default  reduce using rule 61 (ReturnType)
+    $default  reduce using rule 60 (ReturnType)
 
 
 State 45
@@ -744,63 +729,42 @@ State 48
     T_BOOL           shift, and go to state 12
     T_REPEAT         shift, and go to state 55
 
-    T_ID             [reduce using rule 11 (ClassMembers)]
-    T_ID             [reduce using rule 27 (Declarations)]
-    T_ID             [reduce using rule 30 (Statements)]
-    T_ID             [reduce using rule 39 (Assignment)]
-    T_ID             [reduce using rule 44 (MethodCall)]
-    T_CLOSE_BRACKET  [reduce using rule 11 (ClassMembers)]
-    T_CLOSE_BRACKET  [reduce using rule 25 (InnerScopeMethod)]
-    T_CLOSE_BRACKET  [reduce using rule 27 (Declarations)]
-    T_CLOSE_BRACKET  [reduce using rule 30 (Statements)]
-    T_CLOSE_BRACKET  [reduce using rule 39 (Assignment)]
-    T_CLOSE_BRACKET  [reduce using rule 44 (MethodCall)]
-    T_INTEGER        [reduce using rule 11 (ClassMembers)]
-    T_INTEGER        [reduce using rule 27 (Declarations)]
-    T_INTEGER        [reduce using rule 30 (Statements)]
-    T_INTEGER        [reduce using rule 39 (Assignment)]
-    T_INTEGER        [reduce using rule 44 (MethodCall)]
-    T_PRINT          [reduce using rule 11 (ClassMembers)]
-    T_PRINT          [reduce using rule 27 (Declarations)]
-    T_PRINT          [reduce using rule 30 (Statements)]
-    T_PRINT          [reduce using rule 39 (Assignment)]
-    T_PRINT          [reduce using rule 44 (MethodCall)]
-    T_RETURN         reduce using rule 11 (ClassMembers)
-    T_RETURN         [reduce using rule 27 (Declarations)]
-    T_IF             [reduce using rule 11 (ClassMembers)]
-    T_IF             [reduce using rule 27 (Declarations)]
-    T_IF             [reduce using rule 30 (Statements)]
-    T_IF             [reduce using rule 39 (Assignment)]
-    T_IF             [reduce using rule 44 (MethodCall)]
-    T_WHILE          [reduce using rule 11 (ClassMembers)]
-    T_WHILE          [reduce using rule 27 (Declarations)]
-    T_WHILE          [reduce using rule 30 (Statements)]
-    T_WHILE          [reduce using rule 39 (Assignment)]
-    T_WHILE          [reduce using rule 44 (MethodCall)]
-    T_BOOL           [reduce using rule 11 (ClassMembers)]
-    T_BOOL           [reduce using rule 27 (Declarations)]
-    T_BOOL           [reduce using rule 30 (Statements)]
-    T_BOOL           [reduce using rule 39 (Assignment)]
-    T_BOOL           [reduce using rule 44 (MethodCall)]
-    T_REPEAT         [reduce using rule 11 (ClassMembers)]
-    T_REPEAT         [reduce using rule 27 (Declarations)]
-    T_REPEAT         [reduce using rule 30 (Statements)]
-    T_REPEAT         [reduce using rule 39 (Assignment)]
-    T_REPEAT         [reduce using rule 44 (MethodCall)]
-    $default         reduce using rule 11 (ClassMembers)
+    T_ID             [reduce using rule 29 (Statements)]
+    T_ID             [reduce using rule 38 (Assignment)]
+    T_ID             [reduce using rule 43 (MethodCall)]
+    T_CLOSE_BRACKET  [reduce using rule 29 (Statements)]
+    T_CLOSE_BRACKET  [reduce using rule 38 (Assignment)]
+    T_CLOSE_BRACKET  [reduce using rule 43 (MethodCall)]
+    T_INTEGER        [reduce using rule 29 (Statements)]
+    T_INTEGER        [reduce using rule 38 (Assignment)]
+    T_INTEGER        [reduce using rule 43 (MethodCall)]
+    T_PRINT          [reduce using rule 29 (Statements)]
+    T_PRINT          [reduce using rule 38 (Assignment)]
+    T_PRINT          [reduce using rule 43 (MethodCall)]
+    T_IF             [reduce using rule 29 (Statements)]
+    T_IF             [reduce using rule 38 (Assignment)]
+    T_IF             [reduce using rule 43 (MethodCall)]
+    T_WHILE          [reduce using rule 29 (Statements)]
+    T_WHILE          [reduce using rule 38 (Assignment)]
+    T_WHILE          [reduce using rule 43 (MethodCall)]
+    T_BOOL           [reduce using rule 29 (Statements)]
+    T_BOOL           [reduce using rule 38 (Assignment)]
+    T_BOOL           [reduce using rule 43 (MethodCall)]
+    T_REPEAT         [reduce using rule 29 (Statements)]
+    T_REPEAT         [reduce using rule 38 (Assignment)]
+    T_REPEAT         [reduce using rule 43 (MethodCall)]
 
-    ClassMembers      go to state 56
-    InnerScopeMethod  go to state 57
-    Declarations      go to state 58
-    Statements        go to state 59
-    Statement         go to state 60
-    Assignment        go to state 61
-    MethodCall        go to state 62
-    IfElse            go to state 63
-    While             go to state 64
-    RepeatUntil       go to state 65
-    Print             go to state 66
-    Type              go to state 67
+    InnerScopeMethod  go to state 56
+    Declaration       go to state 57
+    Statements        go to state 58
+    Statement         go to state 59
+    Assignment        go to state 60
+    MethodCall        go to state 61
+    IfElse            go to state 62
+    While             go to state 63
+    RepeatUntil       go to state 64
+    Print             go to state 65
+    Type              go to state 66
 
 
 State 49
@@ -808,22 +772,22 @@ State 49
    18 MethodName: T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_LAMBDA ReturnType . T_OPEN_BRACKET InnerScopeMethod T_CLOSE_BRACKET
    19           | T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_LAMBDA ReturnType . T_OPEN_BRACKET T_CLOSE_BRACKET
 
-    T_OPEN_BRACKET  shift, and go to state 68
+    T_OPEN_BRACKET  shift, and go to state 67
 
 
 State 50
 
-   38 Assignment: T_ID . T_DOT T_ID T_ASSIGN Exp T_SEMICOLON
-   40 MethodCall: T_ID . T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
-   41           | T_ID . T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
-   42           | T_ID . T_DOT T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
-   43           | T_ID . T_DOT T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
-   60 Type: T_ID .
+   37 Assignment: T_ID . T_DOT T_ID T_ASSIGN Exp T_SEMICOLON
+   39 MethodCall: T_ID . T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
+   40           | T_ID . T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
+   41           | T_ID . T_DOT T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
+   42           | T_ID . T_DOT T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
+   59 Type: T_ID .
 
-    T_OPENPAREN  shift, and go to state 69
-    T_DOT        shift, and go to state 70
+    T_OPENPAREN  shift, and go to state 68
+    T_DOT        shift, and go to state 69
 
-    $default  reduce using rule 60 (Type)
+    $default  reduce using rule 59 (Type)
 
 
 State 51
@@ -835,94 +799,141 @@ State 51
 
 State 52
 
-   53 Print: T_PRINT . Exp T_SEMICOLON
+   52 Print: T_PRINT . Exp T_SEMICOLON
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
 
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
 
-    MethodCall  go to state 79
-    Exp         go to state 80
+    MethodCall  go to state 78
+    Exp         go to state 79
 
 
 State 53
 
-   45 IfElse: T_IF . Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET
-   46       | T_IF . Exp T_OPEN_BRACKET T_CLOSE_BRACKET
-   47       | T_IF . Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Block T_CLOSE_BRACKET
-   48       | T_IF . Exp T_OPEN_BRACKET T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET T_CLOSE_BRACKET
+   44 IfElse: T_IF . Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET
+   45       | T_IF . Exp T_OPEN_BRACKET T_CLOSE_BRACKET
+   46       | T_IF . Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Block T_CLOSE_BRACKET
+   47       | T_IF . Exp T_OPEN_BRACKET T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET T_CLOSE_BRACKET
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
 
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
 
-    MethodCall  go to state 79
-    Exp         go to state 81
+    MethodCall  go to state 78
+    Exp         go to state 80
 
 
 State 54
 
-   49 While: T_WHILE . Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET
-   50      | T_WHILE . Exp T_OPEN_BRACKET T_CLOSE_BRACKET
+   48 While: T_WHILE . Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET
+   49      | T_WHILE . Exp T_OPEN_BRACKET T_CLOSE_BRACKET
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
 
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
 
-    MethodCall  go to state 79
-    Exp         go to state 82
+    MethodCall  go to state 78
+    Exp         go to state 81
 
 
 State 55
 
-   51 RepeatUntil: T_REPEAT . T_OPEN_BRACKET Block T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
-   52            | T_REPEAT . T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
+   50 RepeatUntil: T_REPEAT . T_OPEN_BRACKET Block T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
+   51            | T_REPEAT . T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
 
-    T_OPEN_BRACKET  shift, and go to state 83
+    T_OPEN_BRACKET  shift, and go to state 82
 
 
 State 56
 
-   26 Declarations: ClassMembers .
+   20 MethodName: T_ID T_OPENPAREN T_CLOSEPAREN T_LAMBDA ReturnType T_OPEN_BRACKET InnerScopeMethod . T_CLOSE_BRACKET
 
-    $default  reduce using rule 26 (Declarations)
+    T_CLOSE_BRACKET  shift, and go to state 83
 
 
 State 57
 
-   20 MethodName: T_ID T_OPENPAREN T_CLOSEPAREN T_LAMBDA ReturnType T_OPEN_BRACKET InnerScopeMethod . T_CLOSE_BRACKET
+   22 InnerScopeMethod: Declaration . Statements ReturnStatement
+   23                 | Declaration . Statements
+   25 Declaration: Declaration . Type T_ID T_SEMICOLON
 
-    T_CLOSE_BRACKET  shift, and go to state 84
+    T_ID       shift, and go to state 50
+    T_INTEGER  shift, and go to state 11
+    T_PRINT    shift, and go to state 52
+    T_IF       shift, and go to state 53
+    T_WHILE    shift, and go to state 54
+    T_BOOL     shift, and go to state 12
+    T_REPEAT   shift, and go to state 55
+
+    T_ID             [reduce using rule 29 (Statements)]
+    T_ID             [reduce using rule 38 (Assignment)]
+    T_ID             [reduce using rule 43 (MethodCall)]
+    T_CLOSE_BRACKET  reduce using rule 29 (Statements)
+    T_CLOSE_BRACKET  [reduce using rule 38 (Assignment)]
+    T_CLOSE_BRACKET  [reduce using rule 43 (MethodCall)]
+    T_INTEGER        [reduce using rule 29 (Statements)]
+    T_INTEGER        [reduce using rule 38 (Assignment)]
+    T_INTEGER        [reduce using rule 43 (MethodCall)]
+    T_PRINT          [reduce using rule 29 (Statements)]
+    T_PRINT          [reduce using rule 38 (Assignment)]
+    T_PRINT          [reduce using rule 43 (MethodCall)]
+    T_RETURN         reduce using rule 29 (Statements)
+    T_RETURN         [reduce using rule 38 (Assignment)]
+    T_RETURN         [reduce using rule 43 (MethodCall)]
+    T_IF             [reduce using rule 29 (Statements)]
+    T_IF             [reduce using rule 38 (Assignment)]
+    T_IF             [reduce using rule 43 (MethodCall)]
+    T_WHILE          [reduce using rule 29 (Statements)]
+    T_WHILE          [reduce using rule 38 (Assignment)]
+    T_WHILE          [reduce using rule 43 (MethodCall)]
+    T_BOOL           [reduce using rule 29 (Statements)]
+    T_BOOL           [reduce using rule 38 (Assignment)]
+    T_BOOL           [reduce using rule 43 (MethodCall)]
+    T_REPEAT         [reduce using rule 29 (Statements)]
+    T_REPEAT         [reduce using rule 38 (Assignment)]
+    T_REPEAT         [reduce using rule 43 (MethodCall)]
+    $default         reduce using rule 29 (Statements)
+
+    Statements   go to state 84
+    Statement    go to state 59
+    Assignment   go to state 60
+    MethodCall   go to state 61
+    IfElse       go to state 62
+    While        go to state 63
+    RepeatUntil  go to state 64
+    Print        go to state 65
+    Type         go to state 85
 
 
 State 58
 
-   22 InnerScopeMethod: Declarations . Statements ReturnStatement
-   23                 | Declarations . Statements
+   24 InnerScopeMethod: Statements .
+   27 Statements: Statements . Statement
 
     T_ID       shift, and go to state 50
     T_INTEGER  shift, and go to state 11
@@ -932,154 +943,100 @@ State 58
     T_BOOL     shift, and go to state 12
     T_REPEAT   shift, and go to state 55
 
-    T_ID             [reduce using rule 30 (Statements)]
-    T_ID             [reduce using rule 39 (Assignment)]
-    T_ID             [reduce using rule 44 (MethodCall)]
-    T_CLOSE_BRACKET  reduce using rule 30 (Statements)
-    T_CLOSE_BRACKET  [reduce using rule 39 (Assignment)]
-    T_CLOSE_BRACKET  [reduce using rule 44 (MethodCall)]
-    T_INTEGER        [reduce using rule 30 (Statements)]
-    T_INTEGER        [reduce using rule 39 (Assignment)]
-    T_INTEGER        [reduce using rule 44 (MethodCall)]
-    T_PRINT          [reduce using rule 30 (Statements)]
-    T_PRINT          [reduce using rule 39 (Assignment)]
-    T_PRINT          [reduce using rule 44 (MethodCall)]
-    T_RETURN         reduce using rule 30 (Statements)
-    T_RETURN         [reduce using rule 39 (Assignment)]
-    T_RETURN         [reduce using rule 44 (MethodCall)]
-    T_IF             [reduce using rule 30 (Statements)]
-    T_IF             [reduce using rule 39 (Assignment)]
-    T_IF             [reduce using rule 44 (MethodCall)]
-    T_WHILE          [reduce using rule 30 (Statements)]
-    T_WHILE          [reduce using rule 39 (Assignment)]
-    T_WHILE          [reduce using rule 44 (MethodCall)]
-    T_BOOL           [reduce using rule 30 (Statements)]
-    T_BOOL           [reduce using rule 39 (Assignment)]
-    T_BOOL           [reduce using rule 44 (MethodCall)]
-    T_REPEAT         [reduce using rule 30 (Statements)]
-    T_REPEAT         [reduce using rule 39 (Assignment)]
-    T_REPEAT         [reduce using rule 44 (MethodCall)]
-    $default         reduce using rule 30 (Statements)
+    T_ID             [reduce using rule 38 (Assignment)]
+    T_ID             [reduce using rule 43 (MethodCall)]
+    T_CLOSE_BRACKET  reduce using rule 24 (InnerScopeMethod)
+    T_CLOSE_BRACKET  [reduce using rule 38 (Assignment)]
+    T_CLOSE_BRACKET  [reduce using rule 43 (MethodCall)]
+    T_INTEGER        [reduce using rule 38 (Assignment)]
+    T_INTEGER        [reduce using rule 43 (MethodCall)]
+    T_PRINT          [reduce using rule 38 (Assignment)]
+    T_PRINT          [reduce using rule 43 (MethodCall)]
+    T_IF             [reduce using rule 38 (Assignment)]
+    T_IF             [reduce using rule 43 (MethodCall)]
+    T_WHILE          [reduce using rule 38 (Assignment)]
+    T_WHILE          [reduce using rule 43 (MethodCall)]
+    T_BOOL           [reduce using rule 38 (Assignment)]
+    T_BOOL           [reduce using rule 43 (MethodCall)]
+    T_REPEAT         [reduce using rule 38 (Assignment)]
+    T_REPEAT         [reduce using rule 43 (MethodCall)]
+    $default         reduce using rule 24 (InnerScopeMethod)
 
-    Statements   go to state 85
-    Statement    go to state 60
-    Assignment   go to state 61
-    MethodCall   go to state 62
-    IfElse       go to state 63
-    While        go to state 64
-    RepeatUntil  go to state 65
-    Print        go to state 66
-    Type         go to state 86
+    Statement    go to state 86
+    Assignment   go to state 60
+    MethodCall   go to state 61
+    IfElse       go to state 62
+    While        go to state 63
+    RepeatUntil  go to state 64
+    Print        go to state 65
+    Type         go to state 87
 
 
 State 59
 
-   24 InnerScopeMethod: Statements .
-   28 Statements: Statements . Statement
+   28 Statements: Statement .
 
-    T_ID       shift, and go to state 50
-    T_INTEGER  shift, and go to state 11
-    T_PRINT    shift, and go to state 52
-    T_IF       shift, and go to state 53
-    T_WHILE    shift, and go to state 54
-    T_BOOL     shift, and go to state 12
-    T_REPEAT   shift, and go to state 55
-
-    T_ID             [reduce using rule 39 (Assignment)]
-    T_ID             [reduce using rule 44 (MethodCall)]
-    T_CLOSE_BRACKET  reduce using rule 24 (InnerScopeMethod)
-    T_CLOSE_BRACKET  [reduce using rule 39 (Assignment)]
-    T_CLOSE_BRACKET  [reduce using rule 44 (MethodCall)]
-    T_INTEGER        [reduce using rule 39 (Assignment)]
-    T_INTEGER        [reduce using rule 44 (MethodCall)]
-    T_PRINT          [reduce using rule 39 (Assignment)]
-    T_PRINT          [reduce using rule 44 (MethodCall)]
-    T_IF             [reduce using rule 39 (Assignment)]
-    T_IF             [reduce using rule 44 (MethodCall)]
-    T_WHILE          [reduce using rule 39 (Assignment)]
-    T_WHILE          [reduce using rule 44 (MethodCall)]
-    T_BOOL           [reduce using rule 39 (Assignment)]
-    T_BOOL           [reduce using rule 44 (MethodCall)]
-    T_REPEAT         [reduce using rule 39 (Assignment)]
-    T_REPEAT         [reduce using rule 44 (MethodCall)]
-    $default         reduce using rule 24 (InnerScopeMethod)
-
-    Statement    go to state 87
-    Assignment   go to state 61
-    MethodCall   go to state 62
-    IfElse       go to state 63
-    While        go to state 64
-    RepeatUntil  go to state 65
-    Print        go to state 66
-    Type         go to state 86
+    $default  reduce using rule 28 (Statements)
 
 
 State 60
 
-   29 Statements: Statement .
+   30 Statement: Assignment .
 
-    $default  reduce using rule 29 (Statements)
+    $default  reduce using rule 30 (Statement)
 
 
 State 61
 
-   31 Statement: Assignment .
+   31 Statement: MethodCall .
 
     $default  reduce using rule 31 (Statement)
 
 
 State 62
 
-   32 Statement: MethodCall .
+   32 Statement: IfElse .
 
     $default  reduce using rule 32 (Statement)
 
 
 State 63
 
-   33 Statement: IfElse .
+   33 Statement: While .
 
     $default  reduce using rule 33 (Statement)
 
 
 State 64
 
-   34 Statement: While .
+   34 Statement: RepeatUntil .
 
     $default  reduce using rule 34 (Statement)
 
 
 State 65
 
-   35 Statement: RepeatUntil .
+   35 Statement: Print .
 
     $default  reduce using rule 35 (Statement)
 
 
 State 66
 
-   36 Statement: Print .
+   26 Declaration: Type . T_ID T_SEMICOLON
+   36 Assignment: Type . T_ASSIGN Exp T_SEMICOLON
 
-    $default  reduce using rule 36 (Statement)
+    T_ID      shift, and go to state 88
+    T_ASSIGN  shift, and go to state 89
 
 
 State 67
-
-    9 ClassMembers: Type . T_ID T_SEMICOLON ClassMembers
-   10             | Type . T_ID T_SEMICOLON
-   37 Assignment: Type . T_ASSIGN Exp T_SEMICOLON
-
-    T_ID      shift, and go to state 22
-    T_ASSIGN  shift, and go to state 88
-
-
-State 68
 
    18 MethodName: T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_LAMBDA ReturnType T_OPEN_BRACKET . InnerScopeMethod T_CLOSE_BRACKET
    19           | T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_LAMBDA ReturnType T_OPEN_BRACKET . T_CLOSE_BRACKET
 
     T_ID             shift, and go to state 50
-    T_CLOSE_BRACKET  shift, and go to state 89
+    T_CLOSE_BRACKET  shift, and go to state 90
     T_INTEGER        shift, and go to state 11
     T_PRINT          shift, and go to state 52
     T_IF             shift, and go to state 53
@@ -1087,283 +1044,262 @@ State 68
     T_BOOL           shift, and go to state 12
     T_REPEAT         shift, and go to state 55
 
-    T_ID             [reduce using rule 11 (ClassMembers)]
-    T_ID             [reduce using rule 27 (Declarations)]
-    T_ID             [reduce using rule 30 (Statements)]
-    T_ID             [reduce using rule 39 (Assignment)]
-    T_ID             [reduce using rule 44 (MethodCall)]
-    T_CLOSE_BRACKET  [reduce using rule 11 (ClassMembers)]
-    T_CLOSE_BRACKET  [reduce using rule 25 (InnerScopeMethod)]
-    T_CLOSE_BRACKET  [reduce using rule 27 (Declarations)]
-    T_CLOSE_BRACKET  [reduce using rule 30 (Statements)]
-    T_CLOSE_BRACKET  [reduce using rule 39 (Assignment)]
-    T_CLOSE_BRACKET  [reduce using rule 44 (MethodCall)]
-    T_INTEGER        [reduce using rule 11 (ClassMembers)]
-    T_INTEGER        [reduce using rule 27 (Declarations)]
-    T_INTEGER        [reduce using rule 30 (Statements)]
-    T_INTEGER        [reduce using rule 39 (Assignment)]
-    T_INTEGER        [reduce using rule 44 (MethodCall)]
-    T_PRINT          [reduce using rule 11 (ClassMembers)]
-    T_PRINT          [reduce using rule 27 (Declarations)]
-    T_PRINT          [reduce using rule 30 (Statements)]
-    T_PRINT          [reduce using rule 39 (Assignment)]
-    T_PRINT          [reduce using rule 44 (MethodCall)]
-    T_RETURN         reduce using rule 11 (ClassMembers)
-    T_RETURN         [reduce using rule 27 (Declarations)]
-    T_IF             [reduce using rule 11 (ClassMembers)]
-    T_IF             [reduce using rule 27 (Declarations)]
-    T_IF             [reduce using rule 30 (Statements)]
-    T_IF             [reduce using rule 39 (Assignment)]
-    T_IF             [reduce using rule 44 (MethodCall)]
-    T_WHILE          [reduce using rule 11 (ClassMembers)]
-    T_WHILE          [reduce using rule 27 (Declarations)]
-    T_WHILE          [reduce using rule 30 (Statements)]
-    T_WHILE          [reduce using rule 39 (Assignment)]
-    T_WHILE          [reduce using rule 44 (MethodCall)]
-    T_BOOL           [reduce using rule 11 (ClassMembers)]
-    T_BOOL           [reduce using rule 27 (Declarations)]
-    T_BOOL           [reduce using rule 30 (Statements)]
-    T_BOOL           [reduce using rule 39 (Assignment)]
-    T_BOOL           [reduce using rule 44 (MethodCall)]
-    T_REPEAT         [reduce using rule 11 (ClassMembers)]
-    T_REPEAT         [reduce using rule 27 (Declarations)]
-    T_REPEAT         [reduce using rule 30 (Statements)]
-    T_REPEAT         [reduce using rule 39 (Assignment)]
-    T_REPEAT         [reduce using rule 44 (MethodCall)]
-    $default         reduce using rule 11 (ClassMembers)
+    T_ID             [reduce using rule 29 (Statements)]
+    T_ID             [reduce using rule 38 (Assignment)]
+    T_ID             [reduce using rule 43 (MethodCall)]
+    T_CLOSE_BRACKET  [reduce using rule 29 (Statements)]
+    T_CLOSE_BRACKET  [reduce using rule 38 (Assignment)]
+    T_CLOSE_BRACKET  [reduce using rule 43 (MethodCall)]
+    T_INTEGER        [reduce using rule 29 (Statements)]
+    T_INTEGER        [reduce using rule 38 (Assignment)]
+    T_INTEGER        [reduce using rule 43 (MethodCall)]
+    T_PRINT          [reduce using rule 29 (Statements)]
+    T_PRINT          [reduce using rule 38 (Assignment)]
+    T_PRINT          [reduce using rule 43 (MethodCall)]
+    T_IF             [reduce using rule 29 (Statements)]
+    T_IF             [reduce using rule 38 (Assignment)]
+    T_IF             [reduce using rule 43 (MethodCall)]
+    T_WHILE          [reduce using rule 29 (Statements)]
+    T_WHILE          [reduce using rule 38 (Assignment)]
+    T_WHILE          [reduce using rule 43 (MethodCall)]
+    T_BOOL           [reduce using rule 29 (Statements)]
+    T_BOOL           [reduce using rule 38 (Assignment)]
+    T_BOOL           [reduce using rule 43 (MethodCall)]
+    T_REPEAT         [reduce using rule 29 (Statements)]
+    T_REPEAT         [reduce using rule 38 (Assignment)]
+    T_REPEAT         [reduce using rule 43 (MethodCall)]
 
-    ClassMembers      go to state 56
-    InnerScopeMethod  go to state 90
-    Declarations      go to state 58
-    Statements        go to state 59
-    Statement         go to state 60
-    Assignment        go to state 61
-    MethodCall        go to state 62
-    IfElse            go to state 63
-    While             go to state 64
-    RepeatUntil       go to state 65
-    Print             go to state 66
-    Type              go to state 67
+    InnerScopeMethod  go to state 91
+    Declaration       go to state 57
+    Statements        go to state 58
+    Statement         go to state 59
+    Assignment        go to state 60
+    MethodCall        go to state 61
+    IfElse            go to state 62
+    While             go to state 63
+    RepeatUntil       go to state 64
+    Print             go to state 65
+    Type              go to state 66
+
+
+State 68
+
+   39 MethodCall: T_ID T_OPENPAREN . Parameters T_CLOSEPAREN T_SEMICOLON
+   40           | T_ID T_OPENPAREN . T_CLOSEPAREN T_SEMICOLON
+
+    T_ID          shift, and go to state 30
+    T_CLOSEPAREN  shift, and go to state 92
+
+    Parameters  go to state 93
+    Parameter   go to state 33
 
 
 State 69
 
-   40 MethodCall: T_ID T_OPENPAREN . Parameters T_CLOSEPAREN T_SEMICOLON
-   41           | T_ID T_OPENPAREN . T_CLOSEPAREN T_SEMICOLON
+   37 Assignment: T_ID T_DOT . T_ID T_ASSIGN Exp T_SEMICOLON
+   41 MethodCall: T_ID T_DOT . T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
+   42           | T_ID T_DOT . T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
 
-    T_ID          shift, and go to state 30
-    T_CLOSEPAREN  shift, and go to state 91
-
-    Parameters  go to state 92
-    Parameter   go to state 33
+    T_ID  shift, and go to state 94
 
 
 State 70
 
-   38 Assignment: T_ID T_DOT . T_ID T_ASSIGN Exp T_SEMICOLON
-   42 MethodCall: T_ID T_DOT . T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
-   43           | T_ID T_DOT . T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
+   72 Exp: T_MINUS . Exp
 
-    T_ID  shift, and go to state 93
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
+
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
+
+    MethodCall  go to state 78
+    Exp         go to state 95
 
 
 State 71
 
-   73 Exp: T_MINUS . Exp
+   71 Exp: T_NOT . Exp
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
 
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
 
-    MethodCall  go to state 79
-    Exp         go to state 94
+    MethodCall  go to state 78
+    Exp         go to state 96
 
 
 State 72
 
-   72 Exp: T_NOT . Exp
+   39 MethodCall: T_ID . T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
+   40           | T_ID . T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
+   41           | T_ID . T_DOT T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
+   42           | T_ID . T_DOT T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
+   73 Exp: T_ID .
+   74    | T_ID . T_DOT T_ID
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
+    T_OPENPAREN  shift, and go to state 68
+    T_DOT        shift, and go to state 97
 
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
-
-    MethodCall  go to state 79
-    Exp         go to state 95
+    $default  reduce using rule 73 (Exp)
 
 
 State 73
 
-   40 MethodCall: T_ID . T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
-   41           | T_ID . T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
-   42           | T_ID . T_DOT T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
-   43           | T_ID . T_DOT T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
-   74 Exp: T_ID .
-   75    | T_ID . T_DOT T_ID
+   76 Exp: T_OPENPAREN . Exp T_CLOSEPAREN
 
-    T_OPENPAREN  shift, and go to state 69
-    T_DOT        shift, and go to state 96
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
 
-    $default  reduce using rule 74 (Exp)
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
+
+    MethodCall  go to state 78
+    Exp         go to state 98
 
 
 State 74
 
-   77 Exp: T_OPENPAREN . Exp T_CLOSEPAREN
+   77 Exp: T_NUMBER .
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
-
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
-
-    MethodCall  go to state 79
-    Exp         go to state 97
+    $default  reduce using rule 77 (Exp)
 
 
 State 75
 
-   78 Exp: T_NUMBER .
+   78 Exp: T_TRUE .
 
     $default  reduce using rule 78 (Exp)
 
 
 State 76
 
-   79 Exp: T_TRUE .
+   79 Exp: T_FALSE .
 
     $default  reduce using rule 79 (Exp)
 
 
 State 77
 
-   80 Exp: T_FALSE .
+   80 Exp: T_NEW . T_ID
+   81    | T_NEW . T_ID T_OPENPAREN Parameters T_CLOSEPAREN
 
-    $default  reduce using rule 80 (Exp)
+    T_ID  shift, and go to state 99
 
 
 State 78
 
-   81 Exp: T_NEW . T_ID
-   82    | T_NEW . T_ID T_OPENPAREN Parameters T_CLOSEPAREN
+   75 Exp: MethodCall .
 
-    T_ID  shift, and go to state 98
+    $default  reduce using rule 75 (Exp)
 
 
 State 79
 
-   76 Exp: MethodCall .
+   52 Print: T_PRINT Exp . T_SEMICOLON
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
 
-    $default  reduce using rule 76 (Exp)
+    T_PLUS         shift, and go to state 100
+    T_MINUS        shift, and go to state 101
+    T_MULTIPLY     shift, and go to state 102
+    T_DIVIDE       shift, and go to state 103
+    T_LSS          shift, and go to state 104
+    T_LEQ          shift, and go to state 105
+    T_EQUIVALENCE  shift, and go to state 106
+    T_AND          shift, and go to state 107
+    T_OR           shift, and go to state 108
+    T_SEMICOLON    shift, and go to state 109
 
 
 State 80
 
-   53 Print: T_PRINT Exp . T_SEMICOLON
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
+   44 IfElse: T_IF Exp . T_OPEN_BRACKET Block T_CLOSE_BRACKET
+   45       | T_IF Exp . T_OPEN_BRACKET T_CLOSE_BRACKET
+   46       | T_IF Exp . T_OPEN_BRACKET Block T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Block T_CLOSE_BRACKET
+   47       | T_IF Exp . T_OPEN_BRACKET T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET T_CLOSE_BRACKET
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
 
-    T_PLUS         shift, and go to state 99
-    T_MINUS        shift, and go to state 100
-    T_MULTIPLY     shift, and go to state 101
-    T_DIVIDE       shift, and go to state 102
-    T_LSS          shift, and go to state 103
-    T_LEQ          shift, and go to state 104
-    T_EQUIVALENCE  shift, and go to state 105
-    T_AND          shift, and go to state 106
-    T_OR           shift, and go to state 107
-    T_SEMICOLON    shift, and go to state 108
+    T_PLUS          shift, and go to state 100
+    T_MINUS         shift, and go to state 101
+    T_MULTIPLY      shift, and go to state 102
+    T_DIVIDE        shift, and go to state 103
+    T_LSS           shift, and go to state 104
+    T_LEQ           shift, and go to state 105
+    T_EQUIVALENCE   shift, and go to state 106
+    T_AND           shift, and go to state 107
+    T_OR            shift, and go to state 108
+    T_OPEN_BRACKET  shift, and go to state 110
 
 
 State 81
 
-   45 IfElse: T_IF Exp . T_OPEN_BRACKET Block T_CLOSE_BRACKET
-   46       | T_IF Exp . T_OPEN_BRACKET T_CLOSE_BRACKET
-   47       | T_IF Exp . T_OPEN_BRACKET Block T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Block T_CLOSE_BRACKET
-   48       | T_IF Exp . T_OPEN_BRACKET T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET T_CLOSE_BRACKET
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
+   48 While: T_WHILE Exp . T_OPEN_BRACKET Block T_CLOSE_BRACKET
+   49      | T_WHILE Exp . T_OPEN_BRACKET T_CLOSE_BRACKET
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
 
-    T_PLUS          shift, and go to state 99
-    T_MINUS         shift, and go to state 100
-    T_MULTIPLY      shift, and go to state 101
-    T_DIVIDE        shift, and go to state 102
-    T_LSS           shift, and go to state 103
-    T_LEQ           shift, and go to state 104
-    T_EQUIVALENCE   shift, and go to state 105
-    T_AND           shift, and go to state 106
-    T_OR            shift, and go to state 107
-    T_OPEN_BRACKET  shift, and go to state 109
+    T_PLUS          shift, and go to state 100
+    T_MINUS         shift, and go to state 101
+    T_MULTIPLY      shift, and go to state 102
+    T_DIVIDE        shift, and go to state 103
+    T_LSS           shift, and go to state 104
+    T_LEQ           shift, and go to state 105
+    T_EQUIVALENCE   shift, and go to state 106
+    T_AND           shift, and go to state 107
+    T_OR            shift, and go to state 108
+    T_OPEN_BRACKET  shift, and go to state 111
 
 
 State 82
 
-   49 While: T_WHILE Exp . T_OPEN_BRACKET Block T_CLOSE_BRACKET
-   50      | T_WHILE Exp . T_OPEN_BRACKET T_CLOSE_BRACKET
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
-
-    T_PLUS          shift, and go to state 99
-    T_MINUS         shift, and go to state 100
-    T_MULTIPLY      shift, and go to state 101
-    T_DIVIDE        shift, and go to state 102
-    T_LSS           shift, and go to state 103
-    T_LEQ           shift, and go to state 104
-    T_EQUIVALENCE   shift, and go to state 105
-    T_AND           shift, and go to state 106
-    T_OR            shift, and go to state 107
-    T_OPEN_BRACKET  shift, and go to state 110
-
-
-State 83
-
-   51 RepeatUntil: T_REPEAT T_OPEN_BRACKET . Block T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
-   52            | T_REPEAT T_OPEN_BRACKET . T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
+   50 RepeatUntil: T_REPEAT T_OPEN_BRACKET . Block T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
+   51            | T_REPEAT T_OPEN_BRACKET . T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
 
     T_ID             shift, and go to state 50
-    T_CLOSE_BRACKET  shift, and go to state 111
+    T_CLOSE_BRACKET  shift, and go to state 112
     T_INTEGER        shift, and go to state 11
     T_PRINT          shift, and go to state 52
     T_IF             shift, and go to state 53
@@ -1371,515 +1307,470 @@ State 83
     T_BOOL           shift, and go to state 12
     T_REPEAT         shift, and go to state 55
 
-    T_PLUS         reduce using rule 39 (Assignment)
-    T_PLUS         [reduce using rule 44 (MethodCall)]
-    T_MINUS        reduce using rule 39 (Assignment)
-    T_MINUS        [reduce using rule 44 (MethodCall)]
-    T_MULTIPLY     reduce using rule 39 (Assignment)
-    T_MULTIPLY     [reduce using rule 44 (MethodCall)]
-    T_DIVIDE       reduce using rule 39 (Assignment)
-    T_DIVIDE       [reduce using rule 44 (MethodCall)]
-    T_LSS          reduce using rule 39 (Assignment)
-    T_LSS          [reduce using rule 44 (MethodCall)]
-    T_LEQ          reduce using rule 39 (Assignment)
-    T_LEQ          [reduce using rule 44 (MethodCall)]
-    T_EQUIVALENCE  reduce using rule 39 (Assignment)
-    T_EQUIVALENCE  [reduce using rule 44 (MethodCall)]
-    T_AND          reduce using rule 39 (Assignment)
-    T_AND          [reduce using rule 44 (MethodCall)]
-    T_OR           reduce using rule 39 (Assignment)
-    T_OR           [reduce using rule 44 (MethodCall)]
-    T_NOT          reduce using rule 39 (Assignment)
-    T_NOT          [reduce using rule 44 (MethodCall)]
-    T_ID           [reduce using rule 39 (Assignment)]
-    T_ID           [reduce using rule 44 (MethodCall)]
-    T_OPENPAREN    reduce using rule 39 (Assignment)
-    T_OPENPAREN    [reduce using rule 44 (MethodCall)]
-    T_NUMBER       reduce using rule 39 (Assignment)
-    T_NUMBER       [reduce using rule 44 (MethodCall)]
-    T_TRUE         reduce using rule 39 (Assignment)
-    T_TRUE         [reduce using rule 44 (MethodCall)]
-    T_FALSE        reduce using rule 39 (Assignment)
-    T_FALSE        [reduce using rule 44 (MethodCall)]
-    T_SEMICOLON    reduce using rule 39 (Assignment)
-    T_SEMICOLON    [reduce using rule 44 (MethodCall)]
-    T_NEW          reduce using rule 39 (Assignment)
-    T_NEW          [reduce using rule 44 (MethodCall)]
-    $default       reduce using rule 39 (Assignment)
+    T_PLUS         reduce using rule 38 (Assignment)
+    T_PLUS         [reduce using rule 43 (MethodCall)]
+    T_MINUS        reduce using rule 38 (Assignment)
+    T_MINUS        [reduce using rule 43 (MethodCall)]
+    T_MULTIPLY     reduce using rule 38 (Assignment)
+    T_MULTIPLY     [reduce using rule 43 (MethodCall)]
+    T_DIVIDE       reduce using rule 38 (Assignment)
+    T_DIVIDE       [reduce using rule 43 (MethodCall)]
+    T_LSS          reduce using rule 38 (Assignment)
+    T_LSS          [reduce using rule 43 (MethodCall)]
+    T_LEQ          reduce using rule 38 (Assignment)
+    T_LEQ          [reduce using rule 43 (MethodCall)]
+    T_EQUIVALENCE  reduce using rule 38 (Assignment)
+    T_EQUIVALENCE  [reduce using rule 43 (MethodCall)]
+    T_AND          reduce using rule 38 (Assignment)
+    T_AND          [reduce using rule 43 (MethodCall)]
+    T_OR           reduce using rule 38 (Assignment)
+    T_OR           [reduce using rule 43 (MethodCall)]
+    T_NOT          reduce using rule 38 (Assignment)
+    T_NOT          [reduce using rule 43 (MethodCall)]
+    T_ID           [reduce using rule 38 (Assignment)]
+    T_ID           [reduce using rule 43 (MethodCall)]
+    T_OPENPAREN    reduce using rule 38 (Assignment)
+    T_OPENPAREN    [reduce using rule 43 (MethodCall)]
+    T_NUMBER       reduce using rule 38 (Assignment)
+    T_NUMBER       [reduce using rule 43 (MethodCall)]
+    T_TRUE         reduce using rule 38 (Assignment)
+    T_TRUE         [reduce using rule 43 (MethodCall)]
+    T_FALSE        reduce using rule 38 (Assignment)
+    T_FALSE        [reduce using rule 43 (MethodCall)]
+    T_SEMICOLON    reduce using rule 38 (Assignment)
+    T_SEMICOLON    [reduce using rule 43 (MethodCall)]
+    T_NEW          reduce using rule 38 (Assignment)
+    T_NEW          [reduce using rule 43 (MethodCall)]
+    $default       reduce using rule 38 (Assignment)
 
-    Statement    go to state 112
-    Assignment   go to state 61
-    MethodCall   go to state 62
-    IfElse       go to state 63
-    While        go to state 64
-    RepeatUntil  go to state 65
-    Print        go to state 66
-    Block        go to state 113
-    Type         go to state 86
+    Statement    go to state 113
+    Assignment   go to state 60
+    MethodCall   go to state 61
+    IfElse       go to state 62
+    While        go to state 63
+    RepeatUntil  go to state 64
+    Print        go to state 65
+    Block        go to state 114
+    Type         go to state 87
 
 
-State 84
+State 83
 
    20 MethodName: T_ID T_OPENPAREN T_CLOSEPAREN T_LAMBDA ReturnType T_OPEN_BRACKET InnerScopeMethod T_CLOSE_BRACKET .
 
     $default  reduce using rule 20 (MethodName)
 
 
-State 85
+State 84
 
-   22 InnerScopeMethod: Declarations Statements . ReturnStatement
-   23                 | Declarations Statements .
-   28 Statements: Statements . Statement
+   22 InnerScopeMethod: Declaration Statements . ReturnStatement
+   23                 | Declaration Statements .
+   27 Statements: Statements . Statement
 
     T_ID       shift, and go to state 50
     T_INTEGER  shift, and go to state 11
     T_PRINT    shift, and go to state 52
-    T_RETURN   shift, and go to state 114
+    T_RETURN   shift, and go to state 115
     T_IF       shift, and go to state 53
     T_WHILE    shift, and go to state 54
     T_BOOL     shift, and go to state 12
     T_REPEAT   shift, and go to state 55
 
-    T_ID             [reduce using rule 39 (Assignment)]
-    T_ID             [reduce using rule 44 (MethodCall)]
+    T_ID             [reduce using rule 38 (Assignment)]
+    T_ID             [reduce using rule 43 (MethodCall)]
     T_CLOSE_BRACKET  reduce using rule 23 (InnerScopeMethod)
-    T_CLOSE_BRACKET  [reduce using rule 39 (Assignment)]
-    T_CLOSE_BRACKET  [reduce using rule 44 (MethodCall)]
-    T_CLOSE_BRACKET  [reduce using rule 57 (ReturnStatement)]
-    T_INTEGER        [reduce using rule 39 (Assignment)]
-    T_INTEGER        [reduce using rule 44 (MethodCall)]
-    T_PRINT          [reduce using rule 39 (Assignment)]
-    T_PRINT          [reduce using rule 44 (MethodCall)]
-    T_RETURN         [reduce using rule 39 (Assignment)]
-    T_RETURN         [reduce using rule 44 (MethodCall)]
-    T_IF             [reduce using rule 39 (Assignment)]
-    T_IF             [reduce using rule 44 (MethodCall)]
-    T_WHILE          [reduce using rule 39 (Assignment)]
-    T_WHILE          [reduce using rule 44 (MethodCall)]
-    T_BOOL           [reduce using rule 39 (Assignment)]
-    T_BOOL           [reduce using rule 44 (MethodCall)]
-    T_REPEAT         [reduce using rule 39 (Assignment)]
-    T_REPEAT         [reduce using rule 44 (MethodCall)]
+    T_CLOSE_BRACKET  [reduce using rule 38 (Assignment)]
+    T_CLOSE_BRACKET  [reduce using rule 43 (MethodCall)]
+    T_CLOSE_BRACKET  [reduce using rule 56 (ReturnStatement)]
+    T_INTEGER        [reduce using rule 38 (Assignment)]
+    T_INTEGER        [reduce using rule 43 (MethodCall)]
+    T_PRINT          [reduce using rule 38 (Assignment)]
+    T_PRINT          [reduce using rule 43 (MethodCall)]
+    T_RETURN         [reduce using rule 38 (Assignment)]
+    T_RETURN         [reduce using rule 43 (MethodCall)]
+    T_IF             [reduce using rule 38 (Assignment)]
+    T_IF             [reduce using rule 43 (MethodCall)]
+    T_WHILE          [reduce using rule 38 (Assignment)]
+    T_WHILE          [reduce using rule 43 (MethodCall)]
+    T_BOOL           [reduce using rule 38 (Assignment)]
+    T_BOOL           [reduce using rule 43 (MethodCall)]
+    T_REPEAT         [reduce using rule 38 (Assignment)]
+    T_REPEAT         [reduce using rule 43 (MethodCall)]
     $default         reduce using rule 23 (InnerScopeMethod)
 
-    Statement        go to state 87
-    Assignment       go to state 61
-    MethodCall       go to state 62
-    IfElse           go to state 63
-    While            go to state 64
-    RepeatUntil      go to state 65
-    Print            go to state 66
-    ReturnStatement  go to state 115
-    Type             go to state 86
+    Statement        go to state 86
+    Assignment       go to state 60
+    MethodCall       go to state 61
+    IfElse           go to state 62
+    While            go to state 63
+    RepeatUntil      go to state 64
+    Print            go to state 65
+    ReturnStatement  go to state 116
+    Type             go to state 87
+
+
+State 85
+
+   25 Declaration: Declaration Type . T_ID T_SEMICOLON
+   36 Assignment: Type . T_ASSIGN Exp T_SEMICOLON
+
+    T_ID      shift, and go to state 117
+    T_ASSIGN  shift, and go to state 89
 
 
 State 86
 
-   37 Assignment: Type . T_ASSIGN Exp T_SEMICOLON
+   27 Statements: Statements Statement .
 
-    T_ASSIGN  shift, and go to state 88
+    $default  reduce using rule 27 (Statements)
 
 
 State 87
 
-   28 Statements: Statements Statement .
+   36 Assignment: Type . T_ASSIGN Exp T_SEMICOLON
 
-    $default  reduce using rule 28 (Statements)
+    T_ASSIGN  shift, and go to state 89
 
 
 State 88
 
-   37 Assignment: Type T_ASSIGN . Exp T_SEMICOLON
+   26 Declaration: Type T_ID . T_SEMICOLON
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
-
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
-
-    MethodCall  go to state 79
-    Exp         go to state 116
+    T_SEMICOLON  shift, and go to state 118
 
 
 State 89
+
+   36 Assignment: Type T_ASSIGN . Exp T_SEMICOLON
+
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
+
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
+
+    MethodCall  go to state 78
+    Exp         go to state 119
+
+
+State 90
 
    19 MethodName: T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_LAMBDA ReturnType T_OPEN_BRACKET T_CLOSE_BRACKET .
 
     $default  reduce using rule 19 (MethodName)
 
 
-State 90
+State 91
 
    18 MethodName: T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_LAMBDA ReturnType T_OPEN_BRACKET InnerScopeMethod . T_CLOSE_BRACKET
 
-    T_CLOSE_BRACKET  shift, and go to state 117
-
-
-State 91
-
-   41 MethodCall: T_ID T_OPENPAREN T_CLOSEPAREN . T_SEMICOLON
-
-    T_SEMICOLON  shift, and go to state 118
+    T_CLOSE_BRACKET  shift, and go to state 120
 
 
 State 92
 
-   15 Parameters: Parameters . T_COMMA Parameter
-   40 MethodCall: T_ID T_OPENPAREN Parameters . T_CLOSEPAREN T_SEMICOLON
+   40 MethodCall: T_ID T_OPENPAREN T_CLOSEPAREN . T_SEMICOLON
 
-    T_CLOSEPAREN  shift, and go to state 119
-    T_COMMA       shift, and go to state 40
+    T_SEMICOLON  shift, and go to state 121
 
 
 State 93
 
-   38 Assignment: T_ID T_DOT T_ID . T_ASSIGN Exp T_SEMICOLON
-   42 MethodCall: T_ID T_DOT T_ID . T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
-   43           | T_ID T_DOT T_ID . T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
+   15 Parameters: Parameters . T_COMMA Parameter
+   39 MethodCall: T_ID T_OPENPAREN Parameters . T_CLOSEPAREN T_SEMICOLON
 
-    T_OPENPAREN  shift, and go to state 120
-    T_ASSIGN     shift, and go to state 121
+    T_CLOSEPAREN  shift, and go to state 122
+    T_COMMA       shift, and go to state 40
 
 
 State 94
 
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
-   73    | T_MINUS Exp .
+   37 Assignment: T_ID T_DOT T_ID . T_ASSIGN Exp T_SEMICOLON
+   41 MethodCall: T_ID T_DOT T_ID . T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
+   42           | T_ID T_DOT T_ID . T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
 
-    $default  reduce using rule 73 (Exp)
+    T_OPENPAREN  shift, and go to state 123
+    T_ASSIGN     shift, and go to state 124
 
 
 State 95
 
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
-   72    | T_NOT Exp .
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+   72    | T_MINUS Exp .
 
     $default  reduce using rule 72 (Exp)
 
 
 State 96
 
-   42 MethodCall: T_ID T_DOT . T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
-   43           | T_ID T_DOT . T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
-   75 Exp: T_ID T_DOT . T_ID
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+   71    | T_NOT Exp .
 
-    T_ID  shift, and go to state 122
+    $default  reduce using rule 71 (Exp)
 
 
 State 97
 
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
-   77    | T_OPENPAREN Exp . T_CLOSEPAREN
+   41 MethodCall: T_ID T_DOT . T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
+   42           | T_ID T_DOT . T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
+   74 Exp: T_ID T_DOT . T_ID
 
-    T_PLUS         shift, and go to state 99
-    T_MINUS        shift, and go to state 100
-    T_MULTIPLY     shift, and go to state 101
-    T_DIVIDE       shift, and go to state 102
-    T_LSS          shift, and go to state 103
-    T_LEQ          shift, and go to state 104
-    T_EQUIVALENCE  shift, and go to state 105
-    T_AND          shift, and go to state 106
-    T_OR           shift, and go to state 107
-    T_CLOSEPAREN   shift, and go to state 123
+    T_ID  shift, and go to state 125
 
 
 State 98
 
-   81 Exp: T_NEW T_ID .
-   82    | T_NEW T_ID . T_OPENPAREN Parameters T_CLOSEPAREN
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+   76    | T_OPENPAREN Exp . T_CLOSEPAREN
 
-    T_OPENPAREN  shift, and go to state 124
-
-    $default  reduce using rule 81 (Exp)
+    T_PLUS         shift, and go to state 100
+    T_MINUS        shift, and go to state 101
+    T_MULTIPLY     shift, and go to state 102
+    T_DIVIDE       shift, and go to state 103
+    T_LSS          shift, and go to state 104
+    T_LEQ          shift, and go to state 105
+    T_EQUIVALENCE  shift, and go to state 106
+    T_AND          shift, and go to state 107
+    T_OR           shift, and go to state 108
+    T_CLOSEPAREN   shift, and go to state 126
 
 
 State 99
 
-   63 Exp: Exp T_PLUS . Exp
+   80 Exp: T_NEW T_ID .
+   81    | T_NEW T_ID . T_OPENPAREN Parameters T_CLOSEPAREN
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
+    T_OPENPAREN  shift, and go to state 127
 
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
-
-    MethodCall  go to state 79
-    Exp         go to state 125
+    $default  reduce using rule 80 (Exp)
 
 
 State 100
 
-   64 Exp: Exp T_MINUS . Exp
+   62 Exp: Exp T_PLUS . Exp
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
 
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
 
-    MethodCall  go to state 79
-    Exp         go to state 126
+    MethodCall  go to state 78
+    Exp         go to state 128
 
 
 State 101
 
-   65 Exp: Exp T_MULTIPLY . Exp
+   63 Exp: Exp T_MINUS . Exp
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
 
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
 
-    MethodCall  go to state 79
-    Exp         go to state 127
+    MethodCall  go to state 78
+    Exp         go to state 129
 
 
 State 102
 
-   66 Exp: Exp T_DIVIDE . Exp
+   64 Exp: Exp T_MULTIPLY . Exp
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
 
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
 
-    MethodCall  go to state 79
-    Exp         go to state 128
+    MethodCall  go to state 78
+    Exp         go to state 130
 
 
 State 103
 
-   67 Exp: Exp T_LSS . Exp
+   65 Exp: Exp T_DIVIDE . Exp
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
 
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
 
-    MethodCall  go to state 79
-    Exp         go to state 129
+    MethodCall  go to state 78
+    Exp         go to state 131
 
 
 State 104
 
-   68 Exp: Exp T_LEQ . Exp
+   66 Exp: Exp T_LSS . Exp
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
 
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
 
-    MethodCall  go to state 79
-    Exp         go to state 130
+    MethodCall  go to state 78
+    Exp         go to state 132
 
 
 State 105
 
-   69 Exp: Exp T_EQUIVALENCE . Exp
+   67 Exp: Exp T_LEQ . Exp
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
 
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
 
-    MethodCall  go to state 79
-    Exp         go to state 131
+    MethodCall  go to state 78
+    Exp         go to state 133
 
 
 State 106
 
-   70 Exp: Exp T_AND . Exp
+   68 Exp: Exp T_EQUIVALENCE . Exp
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
 
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
 
-    MethodCall  go to state 79
-    Exp         go to state 132
+    MethodCall  go to state 78
+    Exp         go to state 134
 
 
 State 107
 
-   71 Exp: Exp T_OR . Exp
+   69 Exp: Exp T_AND . Exp
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
 
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
 
-    MethodCall  go to state 79
-    Exp         go to state 133
+    MethodCall  go to state 78
+    Exp         go to state 135
 
 
 State 108
 
-   53 Print: T_PRINT Exp T_SEMICOLON .
+   70 Exp: Exp T_OR . Exp
 
-    $default  reduce using rule 53 (Print)
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
+
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
+
+    MethodCall  go to state 78
+    Exp         go to state 136
 
 
 State 109
 
-   45 IfElse: T_IF Exp T_OPEN_BRACKET . Block T_CLOSE_BRACKET
-   46       | T_IF Exp T_OPEN_BRACKET . T_CLOSE_BRACKET
-   47       | T_IF Exp T_OPEN_BRACKET . Block T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Block T_CLOSE_BRACKET
-   48       | T_IF Exp T_OPEN_BRACKET . T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET T_CLOSE_BRACKET
+   52 Print: T_PRINT Exp T_SEMICOLON .
 
-    T_ID             shift, and go to state 50
-    T_CLOSE_BRACKET  shift, and go to state 134
-    T_INTEGER        shift, and go to state 11
-    T_PRINT          shift, and go to state 52
-    T_IF             shift, and go to state 53
-    T_WHILE          shift, and go to state 54
-    T_BOOL           shift, and go to state 12
-    T_REPEAT         shift, and go to state 55
-
-    T_PLUS         reduce using rule 39 (Assignment)
-    T_PLUS         [reduce using rule 44 (MethodCall)]
-    T_MINUS        reduce using rule 39 (Assignment)
-    T_MINUS        [reduce using rule 44 (MethodCall)]
-    T_MULTIPLY     reduce using rule 39 (Assignment)
-    T_MULTIPLY     [reduce using rule 44 (MethodCall)]
-    T_DIVIDE       reduce using rule 39 (Assignment)
-    T_DIVIDE       [reduce using rule 44 (MethodCall)]
-    T_LSS          reduce using rule 39 (Assignment)
-    T_LSS          [reduce using rule 44 (MethodCall)]
-    T_LEQ          reduce using rule 39 (Assignment)
-    T_LEQ          [reduce using rule 44 (MethodCall)]
-    T_EQUIVALENCE  reduce using rule 39 (Assignment)
-    T_EQUIVALENCE  [reduce using rule 44 (MethodCall)]
-    T_AND          reduce using rule 39 (Assignment)
-    T_AND          [reduce using rule 44 (MethodCall)]
-    T_OR           reduce using rule 39 (Assignment)
-    T_OR           [reduce using rule 44 (MethodCall)]
-    T_NOT          reduce using rule 39 (Assignment)
-    T_NOT          [reduce using rule 44 (MethodCall)]
-    T_ID           [reduce using rule 39 (Assignment)]
-    T_ID           [reduce using rule 44 (MethodCall)]
-    T_OPENPAREN    reduce using rule 39 (Assignment)
-    T_OPENPAREN    [reduce using rule 44 (MethodCall)]
-    T_NUMBER       reduce using rule 39 (Assignment)
-    T_NUMBER       [reduce using rule 44 (MethodCall)]
-    T_TRUE         reduce using rule 39 (Assignment)
-    T_TRUE         [reduce using rule 44 (MethodCall)]
-    T_FALSE        reduce using rule 39 (Assignment)
-    T_FALSE        [reduce using rule 44 (MethodCall)]
-    T_SEMICOLON    reduce using rule 39 (Assignment)
-    T_SEMICOLON    [reduce using rule 44 (MethodCall)]
-    T_NEW          reduce using rule 39 (Assignment)
-    T_NEW          [reduce using rule 44 (MethodCall)]
-    $default       reduce using rule 39 (Assignment)
-
-    Statement    go to state 112
-    Assignment   go to state 61
-    MethodCall   go to state 62
-    IfElse       go to state 63
-    While        go to state 64
-    RepeatUntil  go to state 65
-    Print        go to state 66
-    Block        go to state 135
-    Type         go to state 86
+    $default  reduce using rule 52 (Print)
 
 
 State 110
 
-   49 While: T_WHILE Exp T_OPEN_BRACKET . Block T_CLOSE_BRACKET
-   50      | T_WHILE Exp T_OPEN_BRACKET . T_CLOSE_BRACKET
+   44 IfElse: T_IF Exp T_OPEN_BRACKET . Block T_CLOSE_BRACKET
+   45       | T_IF Exp T_OPEN_BRACKET . T_CLOSE_BRACKET
+   46       | T_IF Exp T_OPEN_BRACKET . Block T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Block T_CLOSE_BRACKET
+   47       | T_IF Exp T_OPEN_BRACKET . T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET T_CLOSE_BRACKET
 
     T_ID             shift, and go to state 50
-    T_CLOSE_BRACKET  shift, and go to state 136
+    T_CLOSE_BRACKET  shift, and go to state 137
     T_INTEGER        shift, and go to state 11
     T_PRINT          shift, and go to state 52
     T_IF             shift, and go to state 53
@@ -1887,87 +1778,60 @@ State 110
     T_BOOL           shift, and go to state 12
     T_REPEAT         shift, and go to state 55
 
-    T_PLUS         reduce using rule 39 (Assignment)
-    T_PLUS         [reduce using rule 44 (MethodCall)]
-    T_MINUS        reduce using rule 39 (Assignment)
-    T_MINUS        [reduce using rule 44 (MethodCall)]
-    T_MULTIPLY     reduce using rule 39 (Assignment)
-    T_MULTIPLY     [reduce using rule 44 (MethodCall)]
-    T_DIVIDE       reduce using rule 39 (Assignment)
-    T_DIVIDE       [reduce using rule 44 (MethodCall)]
-    T_LSS          reduce using rule 39 (Assignment)
-    T_LSS          [reduce using rule 44 (MethodCall)]
-    T_LEQ          reduce using rule 39 (Assignment)
-    T_LEQ          [reduce using rule 44 (MethodCall)]
-    T_EQUIVALENCE  reduce using rule 39 (Assignment)
-    T_EQUIVALENCE  [reduce using rule 44 (MethodCall)]
-    T_AND          reduce using rule 39 (Assignment)
-    T_AND          [reduce using rule 44 (MethodCall)]
-    T_OR           reduce using rule 39 (Assignment)
-    T_OR           [reduce using rule 44 (MethodCall)]
-    T_NOT          reduce using rule 39 (Assignment)
-    T_NOT          [reduce using rule 44 (MethodCall)]
-    T_ID           [reduce using rule 39 (Assignment)]
-    T_ID           [reduce using rule 44 (MethodCall)]
-    T_OPENPAREN    reduce using rule 39 (Assignment)
-    T_OPENPAREN    [reduce using rule 44 (MethodCall)]
-    T_NUMBER       reduce using rule 39 (Assignment)
-    T_NUMBER       [reduce using rule 44 (MethodCall)]
-    T_TRUE         reduce using rule 39 (Assignment)
-    T_TRUE         [reduce using rule 44 (MethodCall)]
-    T_FALSE        reduce using rule 39 (Assignment)
-    T_FALSE        [reduce using rule 44 (MethodCall)]
-    T_SEMICOLON    reduce using rule 39 (Assignment)
-    T_SEMICOLON    [reduce using rule 44 (MethodCall)]
-    T_NEW          reduce using rule 39 (Assignment)
-    T_NEW          [reduce using rule 44 (MethodCall)]
-    $default       reduce using rule 39 (Assignment)
+    T_PLUS         reduce using rule 38 (Assignment)
+    T_PLUS         [reduce using rule 43 (MethodCall)]
+    T_MINUS        reduce using rule 38 (Assignment)
+    T_MINUS        [reduce using rule 43 (MethodCall)]
+    T_MULTIPLY     reduce using rule 38 (Assignment)
+    T_MULTIPLY     [reduce using rule 43 (MethodCall)]
+    T_DIVIDE       reduce using rule 38 (Assignment)
+    T_DIVIDE       [reduce using rule 43 (MethodCall)]
+    T_LSS          reduce using rule 38 (Assignment)
+    T_LSS          [reduce using rule 43 (MethodCall)]
+    T_LEQ          reduce using rule 38 (Assignment)
+    T_LEQ          [reduce using rule 43 (MethodCall)]
+    T_EQUIVALENCE  reduce using rule 38 (Assignment)
+    T_EQUIVALENCE  [reduce using rule 43 (MethodCall)]
+    T_AND          reduce using rule 38 (Assignment)
+    T_AND          [reduce using rule 43 (MethodCall)]
+    T_OR           reduce using rule 38 (Assignment)
+    T_OR           [reduce using rule 43 (MethodCall)]
+    T_NOT          reduce using rule 38 (Assignment)
+    T_NOT          [reduce using rule 43 (MethodCall)]
+    T_ID           [reduce using rule 38 (Assignment)]
+    T_ID           [reduce using rule 43 (MethodCall)]
+    T_OPENPAREN    reduce using rule 38 (Assignment)
+    T_OPENPAREN    [reduce using rule 43 (MethodCall)]
+    T_NUMBER       reduce using rule 38 (Assignment)
+    T_NUMBER       [reduce using rule 43 (MethodCall)]
+    T_TRUE         reduce using rule 38 (Assignment)
+    T_TRUE         [reduce using rule 43 (MethodCall)]
+    T_FALSE        reduce using rule 38 (Assignment)
+    T_FALSE        [reduce using rule 43 (MethodCall)]
+    T_SEMICOLON    reduce using rule 38 (Assignment)
+    T_SEMICOLON    [reduce using rule 43 (MethodCall)]
+    T_NEW          reduce using rule 38 (Assignment)
+    T_NEW          [reduce using rule 43 (MethodCall)]
+    $default       reduce using rule 38 (Assignment)
 
-    Statement    go to state 112
-    Assignment   go to state 61
-    MethodCall   go to state 62
-    IfElse       go to state 63
-    While        go to state 64
-    RepeatUntil  go to state 65
-    Print        go to state 66
-    Block        go to state 137
-    Type         go to state 86
+    Statement    go to state 113
+    Assignment   go to state 60
+    MethodCall   go to state 61
+    IfElse       go to state 62
+    While        go to state 63
+    RepeatUntil  go to state 64
+    Print        go to state 65
+    Block        go to state 138
+    Type         go to state 87
 
 
 State 111
 
-   52 RepeatUntil: T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET . T_UNTIL T_OPENPAREN Exp T_SEMICOLON
-
-    T_UNTIL  shift, and go to state 138
-
-
-State 112
-
-   55 Block: Statement . Exp T_SEMICOLON
-
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
-
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
-
-    MethodCall  go to state 79
-    Exp         go to state 139
-
-
-State 113
-
-   51 RepeatUntil: T_REPEAT T_OPEN_BRACKET Block . T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
-   54 Block: Block . Statement Exp T_SEMICOLON
+   48 While: T_WHILE Exp T_OPEN_BRACKET . Block T_CLOSE_BRACKET
+   49      | T_WHILE Exp T_OPEN_BRACKET . T_CLOSE_BRACKET
 
     T_ID             shift, and go to state 50
-    T_CLOSE_BRACKET  shift, and go to state 140
+    T_CLOSE_BRACKET  shift, and go to state 139
     T_INTEGER        shift, and go to state 11
     T_PRINT          shift, and go to state 52
     T_IF             shift, and go to state 53
@@ -1975,854 +1839,963 @@ State 113
     T_BOOL           shift, and go to state 12
     T_REPEAT         shift, and go to state 55
 
-    T_PLUS         reduce using rule 39 (Assignment)
-    T_PLUS         [reduce using rule 44 (MethodCall)]
-    T_MINUS        reduce using rule 39 (Assignment)
-    T_MINUS        [reduce using rule 44 (MethodCall)]
-    T_MULTIPLY     reduce using rule 39 (Assignment)
-    T_MULTIPLY     [reduce using rule 44 (MethodCall)]
-    T_DIVIDE       reduce using rule 39 (Assignment)
-    T_DIVIDE       [reduce using rule 44 (MethodCall)]
-    T_LSS          reduce using rule 39 (Assignment)
-    T_LSS          [reduce using rule 44 (MethodCall)]
-    T_LEQ          reduce using rule 39 (Assignment)
-    T_LEQ          [reduce using rule 44 (MethodCall)]
-    T_EQUIVALENCE  reduce using rule 39 (Assignment)
-    T_EQUIVALENCE  [reduce using rule 44 (MethodCall)]
-    T_AND          reduce using rule 39 (Assignment)
-    T_AND          [reduce using rule 44 (MethodCall)]
-    T_OR           reduce using rule 39 (Assignment)
-    T_OR           [reduce using rule 44 (MethodCall)]
-    T_NOT          reduce using rule 39 (Assignment)
-    T_NOT          [reduce using rule 44 (MethodCall)]
-    T_ID           [reduce using rule 39 (Assignment)]
-    T_ID           [reduce using rule 44 (MethodCall)]
-    T_OPENPAREN    reduce using rule 39 (Assignment)
-    T_OPENPAREN    [reduce using rule 44 (MethodCall)]
-    T_NUMBER       reduce using rule 39 (Assignment)
-    T_NUMBER       [reduce using rule 44 (MethodCall)]
-    T_TRUE         reduce using rule 39 (Assignment)
-    T_TRUE         [reduce using rule 44 (MethodCall)]
-    T_FALSE        reduce using rule 39 (Assignment)
-    T_FALSE        [reduce using rule 44 (MethodCall)]
-    T_SEMICOLON    reduce using rule 39 (Assignment)
-    T_SEMICOLON    [reduce using rule 44 (MethodCall)]
-    T_NEW          reduce using rule 39 (Assignment)
-    T_NEW          [reduce using rule 44 (MethodCall)]
-    $default       reduce using rule 39 (Assignment)
+    T_PLUS         reduce using rule 38 (Assignment)
+    T_PLUS         [reduce using rule 43 (MethodCall)]
+    T_MINUS        reduce using rule 38 (Assignment)
+    T_MINUS        [reduce using rule 43 (MethodCall)]
+    T_MULTIPLY     reduce using rule 38 (Assignment)
+    T_MULTIPLY     [reduce using rule 43 (MethodCall)]
+    T_DIVIDE       reduce using rule 38 (Assignment)
+    T_DIVIDE       [reduce using rule 43 (MethodCall)]
+    T_LSS          reduce using rule 38 (Assignment)
+    T_LSS          [reduce using rule 43 (MethodCall)]
+    T_LEQ          reduce using rule 38 (Assignment)
+    T_LEQ          [reduce using rule 43 (MethodCall)]
+    T_EQUIVALENCE  reduce using rule 38 (Assignment)
+    T_EQUIVALENCE  [reduce using rule 43 (MethodCall)]
+    T_AND          reduce using rule 38 (Assignment)
+    T_AND          [reduce using rule 43 (MethodCall)]
+    T_OR           reduce using rule 38 (Assignment)
+    T_OR           [reduce using rule 43 (MethodCall)]
+    T_NOT          reduce using rule 38 (Assignment)
+    T_NOT          [reduce using rule 43 (MethodCall)]
+    T_ID           [reduce using rule 38 (Assignment)]
+    T_ID           [reduce using rule 43 (MethodCall)]
+    T_OPENPAREN    reduce using rule 38 (Assignment)
+    T_OPENPAREN    [reduce using rule 43 (MethodCall)]
+    T_NUMBER       reduce using rule 38 (Assignment)
+    T_NUMBER       [reduce using rule 43 (MethodCall)]
+    T_TRUE         reduce using rule 38 (Assignment)
+    T_TRUE         [reduce using rule 43 (MethodCall)]
+    T_FALSE        reduce using rule 38 (Assignment)
+    T_FALSE        [reduce using rule 43 (MethodCall)]
+    T_SEMICOLON    reduce using rule 38 (Assignment)
+    T_SEMICOLON    [reduce using rule 43 (MethodCall)]
+    T_NEW          reduce using rule 38 (Assignment)
+    T_NEW          [reduce using rule 43 (MethodCall)]
+    $default       reduce using rule 38 (Assignment)
 
-    Statement    go to state 141
-    Assignment   go to state 61
-    MethodCall   go to state 62
-    IfElse       go to state 63
-    While        go to state 64
-    RepeatUntil  go to state 65
-    Print        go to state 66
-    Type         go to state 86
+    Statement    go to state 113
+    Assignment   go to state 60
+    MethodCall   go to state 61
+    IfElse       go to state 62
+    While        go to state 63
+    RepeatUntil  go to state 64
+    Print        go to state 65
+    Block        go to state 140
+    Type         go to state 87
+
+
+State 112
+
+   51 RepeatUntil: T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET . T_UNTIL T_OPENPAREN Exp T_SEMICOLON
+
+    T_UNTIL  shift, and go to state 141
+
+
+State 113
+
+   54 Block: Statement . Exp T_SEMICOLON
+
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
+
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
+
+    MethodCall  go to state 78
+    Exp         go to state 142
 
 
 State 114
 
-   56 ReturnStatement: T_RETURN . Exp T_SEMICOLON
+   50 RepeatUntil: T_REPEAT T_OPEN_BRACKET Block . T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
+   53 Block: Block . Statement Exp T_SEMICOLON
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
+    T_ID             shift, and go to state 50
+    T_CLOSE_BRACKET  shift, and go to state 143
+    T_INTEGER        shift, and go to state 11
+    T_PRINT          shift, and go to state 52
+    T_IF             shift, and go to state 53
+    T_WHILE          shift, and go to state 54
+    T_BOOL           shift, and go to state 12
+    T_REPEAT         shift, and go to state 55
 
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
+    T_PLUS         reduce using rule 38 (Assignment)
+    T_PLUS         [reduce using rule 43 (MethodCall)]
+    T_MINUS        reduce using rule 38 (Assignment)
+    T_MINUS        [reduce using rule 43 (MethodCall)]
+    T_MULTIPLY     reduce using rule 38 (Assignment)
+    T_MULTIPLY     [reduce using rule 43 (MethodCall)]
+    T_DIVIDE       reduce using rule 38 (Assignment)
+    T_DIVIDE       [reduce using rule 43 (MethodCall)]
+    T_LSS          reduce using rule 38 (Assignment)
+    T_LSS          [reduce using rule 43 (MethodCall)]
+    T_LEQ          reduce using rule 38 (Assignment)
+    T_LEQ          [reduce using rule 43 (MethodCall)]
+    T_EQUIVALENCE  reduce using rule 38 (Assignment)
+    T_EQUIVALENCE  [reduce using rule 43 (MethodCall)]
+    T_AND          reduce using rule 38 (Assignment)
+    T_AND          [reduce using rule 43 (MethodCall)]
+    T_OR           reduce using rule 38 (Assignment)
+    T_OR           [reduce using rule 43 (MethodCall)]
+    T_NOT          reduce using rule 38 (Assignment)
+    T_NOT          [reduce using rule 43 (MethodCall)]
+    T_ID           [reduce using rule 38 (Assignment)]
+    T_ID           [reduce using rule 43 (MethodCall)]
+    T_OPENPAREN    reduce using rule 38 (Assignment)
+    T_OPENPAREN    [reduce using rule 43 (MethodCall)]
+    T_NUMBER       reduce using rule 38 (Assignment)
+    T_NUMBER       [reduce using rule 43 (MethodCall)]
+    T_TRUE         reduce using rule 38 (Assignment)
+    T_TRUE         [reduce using rule 43 (MethodCall)]
+    T_FALSE        reduce using rule 38 (Assignment)
+    T_FALSE        [reduce using rule 43 (MethodCall)]
+    T_SEMICOLON    reduce using rule 38 (Assignment)
+    T_SEMICOLON    [reduce using rule 43 (MethodCall)]
+    T_NEW          reduce using rule 38 (Assignment)
+    T_NEW          [reduce using rule 43 (MethodCall)]
+    $default       reduce using rule 38 (Assignment)
 
-    MethodCall  go to state 79
-    Exp         go to state 142
+    Statement    go to state 144
+    Assignment   go to state 60
+    MethodCall   go to state 61
+    IfElse       go to state 62
+    While        go to state 63
+    RepeatUntil  go to state 64
+    Print        go to state 65
+    Type         go to state 87
 
 
 State 115
 
-   22 InnerScopeMethod: Declarations Statements ReturnStatement .
+   55 ReturnStatement: T_RETURN . Exp T_SEMICOLON
 
-    $default  reduce using rule 22 (InnerScopeMethod)
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
+
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
+
+    MethodCall  go to state 78
+    Exp         go to state 145
 
 
 State 116
 
-   37 Assignment: Type T_ASSIGN Exp . T_SEMICOLON
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
+   22 InnerScopeMethod: Declaration Statements ReturnStatement .
 
-    T_PLUS         shift, and go to state 99
-    T_MINUS        shift, and go to state 100
-    T_MULTIPLY     shift, and go to state 101
-    T_DIVIDE       shift, and go to state 102
-    T_LSS          shift, and go to state 103
-    T_LEQ          shift, and go to state 104
-    T_EQUIVALENCE  shift, and go to state 105
-    T_AND          shift, and go to state 106
-    T_OR           shift, and go to state 107
-    T_SEMICOLON    shift, and go to state 143
+    $default  reduce using rule 22 (InnerScopeMethod)
 
 
 State 117
+
+   25 Declaration: Declaration Type T_ID . T_SEMICOLON
+
+    T_SEMICOLON  shift, and go to state 146
+
+
+State 118
+
+   26 Declaration: Type T_ID T_SEMICOLON .
+
+    $default  reduce using rule 26 (Declaration)
+
+
+State 119
+
+   36 Assignment: Type T_ASSIGN Exp . T_SEMICOLON
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+
+    T_PLUS         shift, and go to state 100
+    T_MINUS        shift, and go to state 101
+    T_MULTIPLY     shift, and go to state 102
+    T_DIVIDE       shift, and go to state 103
+    T_LSS          shift, and go to state 104
+    T_LEQ          shift, and go to state 105
+    T_EQUIVALENCE  shift, and go to state 106
+    T_AND          shift, and go to state 107
+    T_OR           shift, and go to state 108
+    T_SEMICOLON    shift, and go to state 147
+
+
+State 120
 
    18 MethodName: T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_LAMBDA ReturnType T_OPEN_BRACKET InnerScopeMethod T_CLOSE_BRACKET .
 
     $default  reduce using rule 18 (MethodName)
 
 
-State 118
-
-   41 MethodCall: T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON .
-
-    $default  reduce using rule 41 (MethodCall)
-
-
-State 119
-
-   40 MethodCall: T_ID T_OPENPAREN Parameters T_CLOSEPAREN . T_SEMICOLON
-
-    T_SEMICOLON  shift, and go to state 144
-
-
-State 120
-
-   42 MethodCall: T_ID T_DOT T_ID T_OPENPAREN . Parameters T_CLOSEPAREN T_SEMICOLON
-   43           | T_ID T_DOT T_ID T_OPENPAREN . T_CLOSEPAREN T_SEMICOLON
-
-    T_ID          shift, and go to state 30
-    T_CLOSEPAREN  shift, and go to state 145
-
-    Parameters  go to state 146
-    Parameter   go to state 33
-
-
 State 121
 
-   38 Assignment: T_ID T_DOT T_ID T_ASSIGN . Exp T_SEMICOLON
-
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
-
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
-
-    MethodCall  go to state 79
-    Exp         go to state 147
-
-
-State 122
-
-   42 MethodCall: T_ID T_DOT T_ID . T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
-   43           | T_ID T_DOT T_ID . T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
-   75 Exp: T_ID T_DOT T_ID .
-
-    T_OPENPAREN  shift, and go to state 120
-
-    $default  reduce using rule 75 (Exp)
-
-
-State 123
-
-   77 Exp: T_OPENPAREN Exp T_CLOSEPAREN .
-
-    $default  reduce using rule 77 (Exp)
-
-
-State 124
-
-   82 Exp: T_NEW T_ID T_OPENPAREN . Parameters T_CLOSEPAREN
-
-    T_ID  shift, and go to state 30
-
-    Parameters  go to state 148
-    Parameter   go to state 33
-
-
-State 125
-
-   63 Exp: Exp . T_PLUS Exp
-   63    | Exp T_PLUS Exp .
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
-
-    T_MULTIPLY  shift, and go to state 101
-    T_DIVIDE    shift, and go to state 102
-
-    $default  reduce using rule 63 (Exp)
-
-
-State 126
-
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   64    | Exp T_MINUS Exp .
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
-
-    T_MULTIPLY  shift, and go to state 101
-    T_DIVIDE    shift, and go to state 102
-
-    $default  reduce using rule 64 (Exp)
-
-
-State 127
-
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   65    | Exp T_MULTIPLY Exp .
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
-
-    $default  reduce using rule 65 (Exp)
-
-
-State 128
-
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   66    | Exp T_DIVIDE Exp .
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
-
-    $default  reduce using rule 66 (Exp)
-
-
-State 129
-
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   67    | Exp T_LSS Exp .
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
-
-    T_PLUS      shift, and go to state 99
-    T_MINUS     shift, and go to state 100
-    T_MULTIPLY  shift, and go to state 101
-    T_DIVIDE    shift, and go to state 102
-
-    $default  reduce using rule 67 (Exp)
-
-
-State 130
-
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   68    | Exp T_LEQ Exp .
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
-
-    T_PLUS      shift, and go to state 99
-    T_MINUS     shift, and go to state 100
-    T_MULTIPLY  shift, and go to state 101
-    T_DIVIDE    shift, and go to state 102
-
-    $default  reduce using rule 68 (Exp)
-
-
-State 131
-
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   69    | Exp T_EQUIVALENCE Exp .
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
-
-    T_PLUS      shift, and go to state 99
-    T_MINUS     shift, and go to state 100
-    T_MULTIPLY  shift, and go to state 101
-    T_DIVIDE    shift, and go to state 102
-
-    $default  reduce using rule 69 (Exp)
-
-
-State 132
-
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   70    | Exp T_AND Exp .
-   71    | Exp . T_OR Exp
-
-    T_PLUS         shift, and go to state 99
-    T_MINUS        shift, and go to state 100
-    T_MULTIPLY     shift, and go to state 101
-    T_DIVIDE       shift, and go to state 102
-    T_LSS          shift, and go to state 103
-    T_LEQ          shift, and go to state 104
-    T_EQUIVALENCE  shift, and go to state 105
-
-    $default  reduce using rule 70 (Exp)
-
-
-State 133
-
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
-   71    | Exp T_OR Exp .
-
-    T_PLUS         shift, and go to state 99
-    T_MINUS        shift, and go to state 100
-    T_MULTIPLY     shift, and go to state 101
-    T_DIVIDE       shift, and go to state 102
-    T_LSS          shift, and go to state 103
-    T_LEQ          shift, and go to state 104
-    T_EQUIVALENCE  shift, and go to state 105
-    T_AND          shift, and go to state 106
-
-    $default  reduce using rule 71 (Exp)
-
-
-State 134
-
-   46 IfElse: T_IF Exp T_OPEN_BRACKET T_CLOSE_BRACKET .
-   48       | T_IF Exp T_OPEN_BRACKET T_CLOSE_BRACKET . T_ELSE T_OPEN_BRACKET T_CLOSE_BRACKET
-
-    T_ELSE  shift, and go to state 149
-
-    $default  reduce using rule 46 (IfElse)
-
-
-State 135
-
-   45 IfElse: T_IF Exp T_OPEN_BRACKET Block . T_CLOSE_BRACKET
-   47       | T_IF Exp T_OPEN_BRACKET Block . T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Block T_CLOSE_BRACKET
-   54 Block: Block . Statement Exp T_SEMICOLON
-
-    T_ID             shift, and go to state 50
-    T_CLOSE_BRACKET  shift, and go to state 150
-    T_INTEGER        shift, and go to state 11
-    T_PRINT          shift, and go to state 52
-    T_IF             shift, and go to state 53
-    T_WHILE          shift, and go to state 54
-    T_BOOL           shift, and go to state 12
-    T_REPEAT         shift, and go to state 55
-
-    T_PLUS         reduce using rule 39 (Assignment)
-    T_PLUS         [reduce using rule 44 (MethodCall)]
-    T_MINUS        reduce using rule 39 (Assignment)
-    T_MINUS        [reduce using rule 44 (MethodCall)]
-    T_MULTIPLY     reduce using rule 39 (Assignment)
-    T_MULTIPLY     [reduce using rule 44 (MethodCall)]
-    T_DIVIDE       reduce using rule 39 (Assignment)
-    T_DIVIDE       [reduce using rule 44 (MethodCall)]
-    T_LSS          reduce using rule 39 (Assignment)
-    T_LSS          [reduce using rule 44 (MethodCall)]
-    T_LEQ          reduce using rule 39 (Assignment)
-    T_LEQ          [reduce using rule 44 (MethodCall)]
-    T_EQUIVALENCE  reduce using rule 39 (Assignment)
-    T_EQUIVALENCE  [reduce using rule 44 (MethodCall)]
-    T_AND          reduce using rule 39 (Assignment)
-    T_AND          [reduce using rule 44 (MethodCall)]
-    T_OR           reduce using rule 39 (Assignment)
-    T_OR           [reduce using rule 44 (MethodCall)]
-    T_NOT          reduce using rule 39 (Assignment)
-    T_NOT          [reduce using rule 44 (MethodCall)]
-    T_ID           [reduce using rule 39 (Assignment)]
-    T_ID           [reduce using rule 44 (MethodCall)]
-    T_OPENPAREN    reduce using rule 39 (Assignment)
-    T_OPENPAREN    [reduce using rule 44 (MethodCall)]
-    T_NUMBER       reduce using rule 39 (Assignment)
-    T_NUMBER       [reduce using rule 44 (MethodCall)]
-    T_TRUE         reduce using rule 39 (Assignment)
-    T_TRUE         [reduce using rule 44 (MethodCall)]
-    T_FALSE        reduce using rule 39 (Assignment)
-    T_FALSE        [reduce using rule 44 (MethodCall)]
-    T_SEMICOLON    reduce using rule 39 (Assignment)
-    T_SEMICOLON    [reduce using rule 44 (MethodCall)]
-    T_NEW          reduce using rule 39 (Assignment)
-    T_NEW          [reduce using rule 44 (MethodCall)]
-    $default       reduce using rule 39 (Assignment)
-
-    Statement    go to state 141
-    Assignment   go to state 61
-    MethodCall   go to state 62
-    IfElse       go to state 63
-    While        go to state 64
-    RepeatUntil  go to state 65
-    Print        go to state 66
-    Type         go to state 86
-
-
-State 136
-
-   50 While: T_WHILE Exp T_OPEN_BRACKET T_CLOSE_BRACKET .
-
-    $default  reduce using rule 50 (While)
-
-
-State 137
-
-   49 While: T_WHILE Exp T_OPEN_BRACKET Block . T_CLOSE_BRACKET
-   54 Block: Block . Statement Exp T_SEMICOLON
-
-    T_ID             shift, and go to state 50
-    T_CLOSE_BRACKET  shift, and go to state 151
-    T_INTEGER        shift, and go to state 11
-    T_PRINT          shift, and go to state 52
-    T_IF             shift, and go to state 53
-    T_WHILE          shift, and go to state 54
-    T_BOOL           shift, and go to state 12
-    T_REPEAT         shift, and go to state 55
-
-    T_PLUS         reduce using rule 39 (Assignment)
-    T_PLUS         [reduce using rule 44 (MethodCall)]
-    T_MINUS        reduce using rule 39 (Assignment)
-    T_MINUS        [reduce using rule 44 (MethodCall)]
-    T_MULTIPLY     reduce using rule 39 (Assignment)
-    T_MULTIPLY     [reduce using rule 44 (MethodCall)]
-    T_DIVIDE       reduce using rule 39 (Assignment)
-    T_DIVIDE       [reduce using rule 44 (MethodCall)]
-    T_LSS          reduce using rule 39 (Assignment)
-    T_LSS          [reduce using rule 44 (MethodCall)]
-    T_LEQ          reduce using rule 39 (Assignment)
-    T_LEQ          [reduce using rule 44 (MethodCall)]
-    T_EQUIVALENCE  reduce using rule 39 (Assignment)
-    T_EQUIVALENCE  [reduce using rule 44 (MethodCall)]
-    T_AND          reduce using rule 39 (Assignment)
-    T_AND          [reduce using rule 44 (MethodCall)]
-    T_OR           reduce using rule 39 (Assignment)
-    T_OR           [reduce using rule 44 (MethodCall)]
-    T_NOT          reduce using rule 39 (Assignment)
-    T_NOT          [reduce using rule 44 (MethodCall)]
-    T_ID           [reduce using rule 39 (Assignment)]
-    T_ID           [reduce using rule 44 (MethodCall)]
-    T_OPENPAREN    reduce using rule 39 (Assignment)
-    T_OPENPAREN    [reduce using rule 44 (MethodCall)]
-    T_NUMBER       reduce using rule 39 (Assignment)
-    T_NUMBER       [reduce using rule 44 (MethodCall)]
-    T_TRUE         reduce using rule 39 (Assignment)
-    T_TRUE         [reduce using rule 44 (MethodCall)]
-    T_FALSE        reduce using rule 39 (Assignment)
-    T_FALSE        [reduce using rule 44 (MethodCall)]
-    T_SEMICOLON    reduce using rule 39 (Assignment)
-    T_SEMICOLON    [reduce using rule 44 (MethodCall)]
-    T_NEW          reduce using rule 39 (Assignment)
-    T_NEW          [reduce using rule 44 (MethodCall)]
-    $default       reduce using rule 39 (Assignment)
-
-    Statement    go to state 141
-    Assignment   go to state 61
-    MethodCall   go to state 62
-    IfElse       go to state 63
-    While        go to state 64
-    RepeatUntil  go to state 65
-    Print        go to state 66
-    Type         go to state 86
-
-
-State 138
-
-   52 RepeatUntil: T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL . T_OPENPAREN Exp T_SEMICOLON
-
-    T_OPENPAREN  shift, and go to state 152
-
-
-State 139
-
-   55 Block: Statement Exp . T_SEMICOLON
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
-
-    T_PLUS         shift, and go to state 99
-    T_MINUS        shift, and go to state 100
-    T_MULTIPLY     shift, and go to state 101
-    T_DIVIDE       shift, and go to state 102
-    T_LSS          shift, and go to state 103
-    T_LEQ          shift, and go to state 104
-    T_EQUIVALENCE  shift, and go to state 105
-    T_AND          shift, and go to state 106
-    T_OR           shift, and go to state 107
-    T_SEMICOLON    shift, and go to state 153
-
-
-State 140
-
-   51 RepeatUntil: T_REPEAT T_OPEN_BRACKET Block T_CLOSE_BRACKET . T_UNTIL T_OPENPAREN Exp T_SEMICOLON
-
-    T_UNTIL  shift, and go to state 154
-
-
-State 141
-
-   54 Block: Block Statement . Exp T_SEMICOLON
-
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
-
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
-
-    MethodCall  go to state 79
-    Exp         go to state 155
-
-
-State 142
-
-   56 ReturnStatement: T_RETURN Exp . T_SEMICOLON
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
-
-    T_PLUS         shift, and go to state 99
-    T_MINUS        shift, and go to state 100
-    T_MULTIPLY     shift, and go to state 101
-    T_DIVIDE       shift, and go to state 102
-    T_LSS          shift, and go to state 103
-    T_LEQ          shift, and go to state 104
-    T_EQUIVALENCE  shift, and go to state 105
-    T_AND          shift, and go to state 106
-    T_OR           shift, and go to state 107
-    T_SEMICOLON    shift, and go to state 156
-
-
-State 143
-
-   37 Assignment: Type T_ASSIGN Exp T_SEMICOLON .
-
-    $default  reduce using rule 37 (Assignment)
-
-
-State 144
-
-   40 MethodCall: T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON .
+   40 MethodCall: T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON .
 
     $default  reduce using rule 40 (MethodCall)
 
 
-State 145
+State 122
 
-   43 MethodCall: T_ID T_DOT T_ID T_OPENPAREN T_CLOSEPAREN . T_SEMICOLON
+   39 MethodCall: T_ID T_OPENPAREN Parameters T_CLOSEPAREN . T_SEMICOLON
 
-    T_SEMICOLON  shift, and go to state 157
-
-
-State 146
-
-   15 Parameters: Parameters . T_COMMA Parameter
-   42 MethodCall: T_ID T_DOT T_ID T_OPENPAREN Parameters . T_CLOSEPAREN T_SEMICOLON
-
-    T_CLOSEPAREN  shift, and go to state 158
-    T_COMMA       shift, and go to state 40
+    T_SEMICOLON  shift, and go to state 148
 
 
-State 147
+State 123
 
-   38 Assignment: T_ID T_DOT T_ID T_ASSIGN Exp . T_SEMICOLON
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
+   41 MethodCall: T_ID T_DOT T_ID T_OPENPAREN . Parameters T_CLOSEPAREN T_SEMICOLON
+   42           | T_ID T_DOT T_ID T_OPENPAREN . T_CLOSEPAREN T_SEMICOLON
 
-    T_PLUS         shift, and go to state 99
-    T_MINUS        shift, and go to state 100
-    T_MULTIPLY     shift, and go to state 101
-    T_DIVIDE       shift, and go to state 102
-    T_LSS          shift, and go to state 103
-    T_LEQ          shift, and go to state 104
-    T_EQUIVALENCE  shift, and go to state 105
-    T_AND          shift, and go to state 106
-    T_OR           shift, and go to state 107
-    T_SEMICOLON    shift, and go to state 159
+    T_ID          shift, and go to state 30
+    T_CLOSEPAREN  shift, and go to state 149
+
+    Parameters  go to state 150
+    Parameter   go to state 33
 
 
-State 148
+State 124
 
-   15 Parameters: Parameters . T_COMMA Parameter
-   82 Exp: T_NEW T_ID T_OPENPAREN Parameters . T_CLOSEPAREN
+   37 Assignment: T_ID T_DOT T_ID T_ASSIGN . Exp T_SEMICOLON
 
-    T_CLOSEPAREN  shift, and go to state 160
-    T_COMMA       shift, and go to state 40
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
+
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
+
+    MethodCall  go to state 78
+    Exp         go to state 151
 
 
-State 149
+State 125
 
-   48 IfElse: T_IF Exp T_OPEN_BRACKET T_CLOSE_BRACKET T_ELSE . T_OPEN_BRACKET T_CLOSE_BRACKET
+   41 MethodCall: T_ID T_DOT T_ID . T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
+   42           | T_ID T_DOT T_ID . T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
+   74 Exp: T_ID T_DOT T_ID .
 
-    T_OPEN_BRACKET  shift, and go to state 161
+    T_OPENPAREN  shift, and go to state 123
+
+    $default  reduce using rule 74 (Exp)
 
 
-State 150
+State 126
 
-   45 IfElse: T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET .
-   47       | T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET . T_ELSE T_OPEN_BRACKET Block T_CLOSE_BRACKET
+   76 Exp: T_OPENPAREN Exp T_CLOSEPAREN .
 
-    T_ELSE  shift, and go to state 162
+    $default  reduce using rule 76 (Exp)
+
+
+State 127
+
+   81 Exp: T_NEW T_ID T_OPENPAREN . Parameters T_CLOSEPAREN
+
+    T_ID  shift, and go to state 30
+
+    Parameters  go to state 152
+    Parameter   go to state 33
+
+
+State 128
+
+   62 Exp: Exp . T_PLUS Exp
+   62    | Exp T_PLUS Exp .
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+
+    T_MULTIPLY  shift, and go to state 102
+    T_DIVIDE    shift, and go to state 103
+
+    $default  reduce using rule 62 (Exp)
+
+
+State 129
+
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   63    | Exp T_MINUS Exp .
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+
+    T_MULTIPLY  shift, and go to state 102
+    T_DIVIDE    shift, and go to state 103
+
+    $default  reduce using rule 63 (Exp)
+
+
+State 130
+
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   64    | Exp T_MULTIPLY Exp .
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+
+    $default  reduce using rule 64 (Exp)
+
+
+State 131
+
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   65    | Exp T_DIVIDE Exp .
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+
+    $default  reduce using rule 65 (Exp)
+
+
+State 132
+
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   66    | Exp T_LSS Exp .
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+
+    T_PLUS      shift, and go to state 100
+    T_MINUS     shift, and go to state 101
+    T_MULTIPLY  shift, and go to state 102
+    T_DIVIDE    shift, and go to state 103
+
+    $default  reduce using rule 66 (Exp)
+
+
+State 133
+
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   67    | Exp T_LEQ Exp .
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+
+    T_PLUS      shift, and go to state 100
+    T_MINUS     shift, and go to state 101
+    T_MULTIPLY  shift, and go to state 102
+    T_DIVIDE    shift, and go to state 103
+
+    $default  reduce using rule 67 (Exp)
+
+
+State 134
+
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   68    | Exp T_EQUIVALENCE Exp .
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+
+    T_PLUS      shift, and go to state 100
+    T_MINUS     shift, and go to state 101
+    T_MULTIPLY  shift, and go to state 102
+    T_DIVIDE    shift, and go to state 103
+
+    $default  reduce using rule 68 (Exp)
+
+
+State 135
+
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   69    | Exp T_AND Exp .
+   70    | Exp . T_OR Exp
+
+    T_PLUS         shift, and go to state 100
+    T_MINUS        shift, and go to state 101
+    T_MULTIPLY     shift, and go to state 102
+    T_DIVIDE       shift, and go to state 103
+    T_LSS          shift, and go to state 104
+    T_LEQ          shift, and go to state 105
+    T_EQUIVALENCE  shift, and go to state 106
+
+    $default  reduce using rule 69 (Exp)
+
+
+State 136
+
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+   70    | Exp T_OR Exp .
+
+    T_PLUS         shift, and go to state 100
+    T_MINUS        shift, and go to state 101
+    T_MULTIPLY     shift, and go to state 102
+    T_DIVIDE       shift, and go to state 103
+    T_LSS          shift, and go to state 104
+    T_LEQ          shift, and go to state 105
+    T_EQUIVALENCE  shift, and go to state 106
+    T_AND          shift, and go to state 107
+
+    $default  reduce using rule 70 (Exp)
+
+
+State 137
+
+   45 IfElse: T_IF Exp T_OPEN_BRACKET T_CLOSE_BRACKET .
+   47       | T_IF Exp T_OPEN_BRACKET T_CLOSE_BRACKET . T_ELSE T_OPEN_BRACKET T_CLOSE_BRACKET
+
+    T_ELSE  shift, and go to state 153
 
     $default  reduce using rule 45 (IfElse)
 
 
-State 151
+State 138
 
-   49 While: T_WHILE Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET .
+   44 IfElse: T_IF Exp T_OPEN_BRACKET Block . T_CLOSE_BRACKET
+   46       | T_IF Exp T_OPEN_BRACKET Block . T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Block T_CLOSE_BRACKET
+   53 Block: Block . Statement Exp T_SEMICOLON
+
+    T_ID             shift, and go to state 50
+    T_CLOSE_BRACKET  shift, and go to state 154
+    T_INTEGER        shift, and go to state 11
+    T_PRINT          shift, and go to state 52
+    T_IF             shift, and go to state 53
+    T_WHILE          shift, and go to state 54
+    T_BOOL           shift, and go to state 12
+    T_REPEAT         shift, and go to state 55
+
+    T_PLUS         reduce using rule 38 (Assignment)
+    T_PLUS         [reduce using rule 43 (MethodCall)]
+    T_MINUS        reduce using rule 38 (Assignment)
+    T_MINUS        [reduce using rule 43 (MethodCall)]
+    T_MULTIPLY     reduce using rule 38 (Assignment)
+    T_MULTIPLY     [reduce using rule 43 (MethodCall)]
+    T_DIVIDE       reduce using rule 38 (Assignment)
+    T_DIVIDE       [reduce using rule 43 (MethodCall)]
+    T_LSS          reduce using rule 38 (Assignment)
+    T_LSS          [reduce using rule 43 (MethodCall)]
+    T_LEQ          reduce using rule 38 (Assignment)
+    T_LEQ          [reduce using rule 43 (MethodCall)]
+    T_EQUIVALENCE  reduce using rule 38 (Assignment)
+    T_EQUIVALENCE  [reduce using rule 43 (MethodCall)]
+    T_AND          reduce using rule 38 (Assignment)
+    T_AND          [reduce using rule 43 (MethodCall)]
+    T_OR           reduce using rule 38 (Assignment)
+    T_OR           [reduce using rule 43 (MethodCall)]
+    T_NOT          reduce using rule 38 (Assignment)
+    T_NOT          [reduce using rule 43 (MethodCall)]
+    T_ID           [reduce using rule 38 (Assignment)]
+    T_ID           [reduce using rule 43 (MethodCall)]
+    T_OPENPAREN    reduce using rule 38 (Assignment)
+    T_OPENPAREN    [reduce using rule 43 (MethodCall)]
+    T_NUMBER       reduce using rule 38 (Assignment)
+    T_NUMBER       [reduce using rule 43 (MethodCall)]
+    T_TRUE         reduce using rule 38 (Assignment)
+    T_TRUE         [reduce using rule 43 (MethodCall)]
+    T_FALSE        reduce using rule 38 (Assignment)
+    T_FALSE        [reduce using rule 43 (MethodCall)]
+    T_SEMICOLON    reduce using rule 38 (Assignment)
+    T_SEMICOLON    [reduce using rule 43 (MethodCall)]
+    T_NEW          reduce using rule 38 (Assignment)
+    T_NEW          [reduce using rule 43 (MethodCall)]
+    $default       reduce using rule 38 (Assignment)
+
+    Statement    go to state 144
+    Assignment   go to state 60
+    MethodCall   go to state 61
+    IfElse       go to state 62
+    While        go to state 63
+    RepeatUntil  go to state 64
+    Print        go to state 65
+    Type         go to state 87
+
+
+State 139
+
+   49 While: T_WHILE Exp T_OPEN_BRACKET T_CLOSE_BRACKET .
 
     $default  reduce using rule 49 (While)
 
 
+State 140
+
+   48 While: T_WHILE Exp T_OPEN_BRACKET Block . T_CLOSE_BRACKET
+   53 Block: Block . Statement Exp T_SEMICOLON
+
+    T_ID             shift, and go to state 50
+    T_CLOSE_BRACKET  shift, and go to state 155
+    T_INTEGER        shift, and go to state 11
+    T_PRINT          shift, and go to state 52
+    T_IF             shift, and go to state 53
+    T_WHILE          shift, and go to state 54
+    T_BOOL           shift, and go to state 12
+    T_REPEAT         shift, and go to state 55
+
+    T_PLUS         reduce using rule 38 (Assignment)
+    T_PLUS         [reduce using rule 43 (MethodCall)]
+    T_MINUS        reduce using rule 38 (Assignment)
+    T_MINUS        [reduce using rule 43 (MethodCall)]
+    T_MULTIPLY     reduce using rule 38 (Assignment)
+    T_MULTIPLY     [reduce using rule 43 (MethodCall)]
+    T_DIVIDE       reduce using rule 38 (Assignment)
+    T_DIVIDE       [reduce using rule 43 (MethodCall)]
+    T_LSS          reduce using rule 38 (Assignment)
+    T_LSS          [reduce using rule 43 (MethodCall)]
+    T_LEQ          reduce using rule 38 (Assignment)
+    T_LEQ          [reduce using rule 43 (MethodCall)]
+    T_EQUIVALENCE  reduce using rule 38 (Assignment)
+    T_EQUIVALENCE  [reduce using rule 43 (MethodCall)]
+    T_AND          reduce using rule 38 (Assignment)
+    T_AND          [reduce using rule 43 (MethodCall)]
+    T_OR           reduce using rule 38 (Assignment)
+    T_OR           [reduce using rule 43 (MethodCall)]
+    T_NOT          reduce using rule 38 (Assignment)
+    T_NOT          [reduce using rule 43 (MethodCall)]
+    T_ID           [reduce using rule 38 (Assignment)]
+    T_ID           [reduce using rule 43 (MethodCall)]
+    T_OPENPAREN    reduce using rule 38 (Assignment)
+    T_OPENPAREN    [reduce using rule 43 (MethodCall)]
+    T_NUMBER       reduce using rule 38 (Assignment)
+    T_NUMBER       [reduce using rule 43 (MethodCall)]
+    T_TRUE         reduce using rule 38 (Assignment)
+    T_TRUE         [reduce using rule 43 (MethodCall)]
+    T_FALSE        reduce using rule 38 (Assignment)
+    T_FALSE        [reduce using rule 43 (MethodCall)]
+    T_SEMICOLON    reduce using rule 38 (Assignment)
+    T_SEMICOLON    [reduce using rule 43 (MethodCall)]
+    T_NEW          reduce using rule 38 (Assignment)
+    T_NEW          [reduce using rule 43 (MethodCall)]
+    $default       reduce using rule 38 (Assignment)
+
+    Statement    go to state 144
+    Assignment   go to state 60
+    MethodCall   go to state 61
+    IfElse       go to state 62
+    While        go to state 63
+    RepeatUntil  go to state 64
+    Print        go to state 65
+    Type         go to state 87
+
+
+State 141
+
+   51 RepeatUntil: T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL . T_OPENPAREN Exp T_SEMICOLON
+
+    T_OPENPAREN  shift, and go to state 156
+
+
+State 142
+
+   54 Block: Statement Exp . T_SEMICOLON
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+
+    T_PLUS         shift, and go to state 100
+    T_MINUS        shift, and go to state 101
+    T_MULTIPLY     shift, and go to state 102
+    T_DIVIDE       shift, and go to state 103
+    T_LSS          shift, and go to state 104
+    T_LEQ          shift, and go to state 105
+    T_EQUIVALENCE  shift, and go to state 106
+    T_AND          shift, and go to state 107
+    T_OR           shift, and go to state 108
+    T_SEMICOLON    shift, and go to state 157
+
+
+State 143
+
+   50 RepeatUntil: T_REPEAT T_OPEN_BRACKET Block T_CLOSE_BRACKET . T_UNTIL T_OPENPAREN Exp T_SEMICOLON
+
+    T_UNTIL  shift, and go to state 158
+
+
+State 144
+
+   53 Block: Block Statement . Exp T_SEMICOLON
+
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
+
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
+
+    MethodCall  go to state 78
+    Exp         go to state 159
+
+
+State 145
+
+   55 ReturnStatement: T_RETURN Exp . T_SEMICOLON
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+
+    T_PLUS         shift, and go to state 100
+    T_MINUS        shift, and go to state 101
+    T_MULTIPLY     shift, and go to state 102
+    T_DIVIDE       shift, and go to state 103
+    T_LSS          shift, and go to state 104
+    T_LEQ          shift, and go to state 105
+    T_EQUIVALENCE  shift, and go to state 106
+    T_AND          shift, and go to state 107
+    T_OR           shift, and go to state 108
+    T_SEMICOLON    shift, and go to state 160
+
+
+State 146
+
+   25 Declaration: Declaration Type T_ID T_SEMICOLON .
+
+    $default  reduce using rule 25 (Declaration)
+
+
+State 147
+
+   36 Assignment: Type T_ASSIGN Exp T_SEMICOLON .
+
+    $default  reduce using rule 36 (Assignment)
+
+
+State 148
+
+   39 MethodCall: T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON .
+
+    $default  reduce using rule 39 (MethodCall)
+
+
+State 149
+
+   42 MethodCall: T_ID T_DOT T_ID T_OPENPAREN T_CLOSEPAREN . T_SEMICOLON
+
+    T_SEMICOLON  shift, and go to state 161
+
+
+State 150
+
+   15 Parameters: Parameters . T_COMMA Parameter
+   41 MethodCall: T_ID T_DOT T_ID T_OPENPAREN Parameters . T_CLOSEPAREN T_SEMICOLON
+
+    T_CLOSEPAREN  shift, and go to state 162
+    T_COMMA       shift, and go to state 40
+
+
+State 151
+
+   37 Assignment: T_ID T_DOT T_ID T_ASSIGN Exp . T_SEMICOLON
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+
+    T_PLUS         shift, and go to state 100
+    T_MINUS        shift, and go to state 101
+    T_MULTIPLY     shift, and go to state 102
+    T_DIVIDE       shift, and go to state 103
+    T_LSS          shift, and go to state 104
+    T_LEQ          shift, and go to state 105
+    T_EQUIVALENCE  shift, and go to state 106
+    T_AND          shift, and go to state 107
+    T_OR           shift, and go to state 108
+    T_SEMICOLON    shift, and go to state 163
+
+
 State 152
 
-   52 RepeatUntil: T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN . Exp T_SEMICOLON
+   15 Parameters: Parameters . T_COMMA Parameter
+   81 Exp: T_NEW T_ID T_OPENPAREN Parameters . T_CLOSEPAREN
 
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
-
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
-
-    MethodCall  go to state 79
-    Exp         go to state 163
+    T_CLOSEPAREN  shift, and go to state 164
+    T_COMMA       shift, and go to state 40
 
 
 State 153
 
-   55 Block: Statement Exp T_SEMICOLON .
+   47 IfElse: T_IF Exp T_OPEN_BRACKET T_CLOSE_BRACKET T_ELSE . T_OPEN_BRACKET T_CLOSE_BRACKET
 
-    $default  reduce using rule 55 (Block)
+    T_OPEN_BRACKET  shift, and go to state 165
 
 
 State 154
 
-   51 RepeatUntil: T_REPEAT T_OPEN_BRACKET Block T_CLOSE_BRACKET T_UNTIL . T_OPENPAREN Exp T_SEMICOLON
+   44 IfElse: T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET .
+   46       | T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET . T_ELSE T_OPEN_BRACKET Block T_CLOSE_BRACKET
 
-    T_OPENPAREN  shift, and go to state 164
+    T_ELSE  shift, and go to state 166
+
+    $default  reduce using rule 44 (IfElse)
 
 
 State 155
 
-   54 Block: Block Statement Exp . T_SEMICOLON
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
+   48 While: T_WHILE Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET .
 
-    T_PLUS         shift, and go to state 99
-    T_MINUS        shift, and go to state 100
-    T_MULTIPLY     shift, and go to state 101
-    T_DIVIDE       shift, and go to state 102
-    T_LSS          shift, and go to state 103
-    T_LEQ          shift, and go to state 104
-    T_EQUIVALENCE  shift, and go to state 105
-    T_AND          shift, and go to state 106
-    T_OR           shift, and go to state 107
-    T_SEMICOLON    shift, and go to state 165
+    $default  reduce using rule 48 (While)
 
 
 State 156
 
-   56 ReturnStatement: T_RETURN Exp T_SEMICOLON .
+   51 RepeatUntil: T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN . Exp T_SEMICOLON
 
-    $default  reduce using rule 56 (ReturnStatement)
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
+
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
+
+    MethodCall  go to state 78
+    Exp         go to state 167
 
 
 State 157
 
-   43 MethodCall: T_ID T_DOT T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON .
-
-    $default  reduce using rule 43 (MethodCall)
-
-
-State 158
-
-   42 MethodCall: T_ID T_DOT T_ID T_OPENPAREN Parameters T_CLOSEPAREN . T_SEMICOLON
-
-    T_SEMICOLON  shift, and go to state 166
-
-
-State 159
-
-   38 Assignment: T_ID T_DOT T_ID T_ASSIGN Exp T_SEMICOLON .
-
-    $default  reduce using rule 38 (Assignment)
-
-
-State 160
-
-   82 Exp: T_NEW T_ID T_OPENPAREN Parameters T_CLOSEPAREN .
-
-    $default  reduce using rule 82 (Exp)
-
-
-State 161
-
-   48 IfElse: T_IF Exp T_OPEN_BRACKET T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET . T_CLOSE_BRACKET
-
-    T_CLOSE_BRACKET  shift, and go to state 167
-
-
-State 162
-
-   47 IfElse: T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET T_ELSE . T_OPEN_BRACKET Block T_CLOSE_BRACKET
-
-    T_OPEN_BRACKET  shift, and go to state 168
-
-
-State 163
-
-   52 RepeatUntil: T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp . T_SEMICOLON
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
-
-    T_PLUS         shift, and go to state 99
-    T_MINUS        shift, and go to state 100
-    T_MULTIPLY     shift, and go to state 101
-    T_DIVIDE       shift, and go to state 102
-    T_LSS          shift, and go to state 103
-    T_LEQ          shift, and go to state 104
-    T_EQUIVALENCE  shift, and go to state 105
-    T_AND          shift, and go to state 106
-    T_OR           shift, and go to state 107
-    T_SEMICOLON    shift, and go to state 169
-
-
-State 164
-
-   51 RepeatUntil: T_REPEAT T_OPEN_BRACKET Block T_CLOSE_BRACKET T_UNTIL T_OPENPAREN . Exp T_SEMICOLON
-
-    T_MINUS      shift, and go to state 71
-    T_NOT        shift, and go to state 72
-    T_ID         shift, and go to state 73
-    T_OPENPAREN  shift, and go to state 74
-    T_NUMBER     shift, and go to state 75
-    T_TRUE       shift, and go to state 76
-    T_FALSE      shift, and go to state 77
-    T_NEW        shift, and go to state 78
-
-    T_MINUS   [reduce using rule 44 (MethodCall)]
-    $default  reduce using rule 44 (MethodCall)
-
-    MethodCall  go to state 79
-    Exp         go to state 170
-
-
-State 165
-
-   54 Block: Block Statement Exp T_SEMICOLON .
+   54 Block: Statement Exp T_SEMICOLON .
 
     $default  reduce using rule 54 (Block)
 
 
-State 166
+State 158
 
-   42 MethodCall: T_ID T_DOT T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON .
+   50 RepeatUntil: T_REPEAT T_OPEN_BRACKET Block T_CLOSE_BRACKET T_UNTIL . T_OPENPAREN Exp T_SEMICOLON
+
+    T_OPENPAREN  shift, and go to state 168
+
+
+State 159
+
+   53 Block: Block Statement Exp . T_SEMICOLON
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+
+    T_PLUS         shift, and go to state 100
+    T_MINUS        shift, and go to state 101
+    T_MULTIPLY     shift, and go to state 102
+    T_DIVIDE       shift, and go to state 103
+    T_LSS          shift, and go to state 104
+    T_LEQ          shift, and go to state 105
+    T_EQUIVALENCE  shift, and go to state 106
+    T_AND          shift, and go to state 107
+    T_OR           shift, and go to state 108
+    T_SEMICOLON    shift, and go to state 169
+
+
+State 160
+
+   55 ReturnStatement: T_RETURN Exp T_SEMICOLON .
+
+    $default  reduce using rule 55 (ReturnStatement)
+
+
+State 161
+
+   42 MethodCall: T_ID T_DOT T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON .
 
     $default  reduce using rule 42 (MethodCall)
 
 
+State 162
+
+   41 MethodCall: T_ID T_DOT T_ID T_OPENPAREN Parameters T_CLOSEPAREN . T_SEMICOLON
+
+    T_SEMICOLON  shift, and go to state 170
+
+
+State 163
+
+   37 Assignment: T_ID T_DOT T_ID T_ASSIGN Exp T_SEMICOLON .
+
+    $default  reduce using rule 37 (Assignment)
+
+
+State 164
+
+   81 Exp: T_NEW T_ID T_OPENPAREN Parameters T_CLOSEPAREN .
+
+    $default  reduce using rule 81 (Exp)
+
+
+State 165
+
+   47 IfElse: T_IF Exp T_OPEN_BRACKET T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET . T_CLOSE_BRACKET
+
+    T_CLOSE_BRACKET  shift, and go to state 171
+
+
+State 166
+
+   46 IfElse: T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET T_ELSE . T_OPEN_BRACKET Block T_CLOSE_BRACKET
+
+    T_OPEN_BRACKET  shift, and go to state 172
+
+
 State 167
 
-   48 IfElse: T_IF Exp T_OPEN_BRACKET T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET T_CLOSE_BRACKET .
+   51 RepeatUntil: T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp . T_SEMICOLON
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
 
-    $default  reduce using rule 48 (IfElse)
+    T_PLUS         shift, and go to state 100
+    T_MINUS        shift, and go to state 101
+    T_MULTIPLY     shift, and go to state 102
+    T_DIVIDE       shift, and go to state 103
+    T_LSS          shift, and go to state 104
+    T_LEQ          shift, and go to state 105
+    T_EQUIVALENCE  shift, and go to state 106
+    T_AND          shift, and go to state 107
+    T_OR           shift, and go to state 108
+    T_SEMICOLON    shift, and go to state 173
 
 
 State 168
 
-   47 IfElse: T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET . Block T_CLOSE_BRACKET
+   50 RepeatUntil: T_REPEAT T_OPEN_BRACKET Block T_CLOSE_BRACKET T_UNTIL T_OPENPAREN . Exp T_SEMICOLON
+
+    T_MINUS      shift, and go to state 70
+    T_NOT        shift, and go to state 71
+    T_ID         shift, and go to state 72
+    T_OPENPAREN  shift, and go to state 73
+    T_NUMBER     shift, and go to state 74
+    T_TRUE       shift, and go to state 75
+    T_FALSE      shift, and go to state 76
+    T_NEW        shift, and go to state 77
+
+    T_MINUS   [reduce using rule 43 (MethodCall)]
+    $default  reduce using rule 43 (MethodCall)
+
+    MethodCall  go to state 78
+    Exp         go to state 174
+
+
+State 169
+
+   53 Block: Block Statement Exp T_SEMICOLON .
+
+    $default  reduce using rule 53 (Block)
+
+
+State 170
+
+   41 MethodCall: T_ID T_DOT T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON .
+
+    $default  reduce using rule 41 (MethodCall)
+
+
+State 171
+
+   47 IfElse: T_IF Exp T_OPEN_BRACKET T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET T_CLOSE_BRACKET .
+
+    $default  reduce using rule 47 (IfElse)
+
+
+State 172
+
+   46 IfElse: T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET . Block T_CLOSE_BRACKET
 
     T_ID       shift, and go to state 50
     T_INTEGER  shift, and go to state 11
@@ -2832,92 +2805,92 @@ State 168
     T_BOOL     shift, and go to state 12
     T_REPEAT   shift, and go to state 55
 
-    T_PLUS         reduce using rule 39 (Assignment)
-    T_PLUS         [reduce using rule 44 (MethodCall)]
-    T_MINUS        reduce using rule 39 (Assignment)
-    T_MINUS        [reduce using rule 44 (MethodCall)]
-    T_MULTIPLY     reduce using rule 39 (Assignment)
-    T_MULTIPLY     [reduce using rule 44 (MethodCall)]
-    T_DIVIDE       reduce using rule 39 (Assignment)
-    T_DIVIDE       [reduce using rule 44 (MethodCall)]
-    T_LSS          reduce using rule 39 (Assignment)
-    T_LSS          [reduce using rule 44 (MethodCall)]
-    T_LEQ          reduce using rule 39 (Assignment)
-    T_LEQ          [reduce using rule 44 (MethodCall)]
-    T_EQUIVALENCE  reduce using rule 39 (Assignment)
-    T_EQUIVALENCE  [reduce using rule 44 (MethodCall)]
-    T_AND          reduce using rule 39 (Assignment)
-    T_AND          [reduce using rule 44 (MethodCall)]
-    T_OR           reduce using rule 39 (Assignment)
-    T_OR           [reduce using rule 44 (MethodCall)]
-    T_NOT          reduce using rule 39 (Assignment)
-    T_NOT          [reduce using rule 44 (MethodCall)]
-    T_ID           [reduce using rule 39 (Assignment)]
-    T_ID           [reduce using rule 44 (MethodCall)]
-    T_OPENPAREN    reduce using rule 39 (Assignment)
-    T_OPENPAREN    [reduce using rule 44 (MethodCall)]
-    T_NUMBER       reduce using rule 39 (Assignment)
-    T_NUMBER       [reduce using rule 44 (MethodCall)]
-    T_TRUE         reduce using rule 39 (Assignment)
-    T_TRUE         [reduce using rule 44 (MethodCall)]
-    T_FALSE        reduce using rule 39 (Assignment)
-    T_FALSE        [reduce using rule 44 (MethodCall)]
-    T_SEMICOLON    reduce using rule 39 (Assignment)
-    T_SEMICOLON    [reduce using rule 44 (MethodCall)]
-    T_NEW          reduce using rule 39 (Assignment)
-    T_NEW          [reduce using rule 44 (MethodCall)]
-    $default       reduce using rule 39 (Assignment)
+    T_PLUS         reduce using rule 38 (Assignment)
+    T_PLUS         [reduce using rule 43 (MethodCall)]
+    T_MINUS        reduce using rule 38 (Assignment)
+    T_MINUS        [reduce using rule 43 (MethodCall)]
+    T_MULTIPLY     reduce using rule 38 (Assignment)
+    T_MULTIPLY     [reduce using rule 43 (MethodCall)]
+    T_DIVIDE       reduce using rule 38 (Assignment)
+    T_DIVIDE       [reduce using rule 43 (MethodCall)]
+    T_LSS          reduce using rule 38 (Assignment)
+    T_LSS          [reduce using rule 43 (MethodCall)]
+    T_LEQ          reduce using rule 38 (Assignment)
+    T_LEQ          [reduce using rule 43 (MethodCall)]
+    T_EQUIVALENCE  reduce using rule 38 (Assignment)
+    T_EQUIVALENCE  [reduce using rule 43 (MethodCall)]
+    T_AND          reduce using rule 38 (Assignment)
+    T_AND          [reduce using rule 43 (MethodCall)]
+    T_OR           reduce using rule 38 (Assignment)
+    T_OR           [reduce using rule 43 (MethodCall)]
+    T_NOT          reduce using rule 38 (Assignment)
+    T_NOT          [reduce using rule 43 (MethodCall)]
+    T_ID           [reduce using rule 38 (Assignment)]
+    T_ID           [reduce using rule 43 (MethodCall)]
+    T_OPENPAREN    reduce using rule 38 (Assignment)
+    T_OPENPAREN    [reduce using rule 43 (MethodCall)]
+    T_NUMBER       reduce using rule 38 (Assignment)
+    T_NUMBER       [reduce using rule 43 (MethodCall)]
+    T_TRUE         reduce using rule 38 (Assignment)
+    T_TRUE         [reduce using rule 43 (MethodCall)]
+    T_FALSE        reduce using rule 38 (Assignment)
+    T_FALSE        [reduce using rule 43 (MethodCall)]
+    T_SEMICOLON    reduce using rule 38 (Assignment)
+    T_SEMICOLON    [reduce using rule 43 (MethodCall)]
+    T_NEW          reduce using rule 38 (Assignment)
+    T_NEW          [reduce using rule 43 (MethodCall)]
+    $default       reduce using rule 38 (Assignment)
 
-    Statement    go to state 112
-    Assignment   go to state 61
-    MethodCall   go to state 62
-    IfElse       go to state 63
-    While        go to state 64
-    RepeatUntil  go to state 65
-    Print        go to state 66
-    Block        go to state 171
-    Type         go to state 86
-
-
-State 169
-
-   52 RepeatUntil: T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON .
-
-    $default  reduce using rule 52 (RepeatUntil)
+    Statement    go to state 113
+    Assignment   go to state 60
+    MethodCall   go to state 61
+    IfElse       go to state 62
+    While        go to state 63
+    RepeatUntil  go to state 64
+    Print        go to state 65
+    Block        go to state 175
+    Type         go to state 87
 
 
-State 170
+State 173
 
-   51 RepeatUntil: T_REPEAT T_OPEN_BRACKET Block T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp . T_SEMICOLON
-   63 Exp: Exp . T_PLUS Exp
-   64    | Exp . T_MINUS Exp
-   65    | Exp . T_MULTIPLY Exp
-   66    | Exp . T_DIVIDE Exp
-   67    | Exp . T_LSS Exp
-   68    | Exp . T_LEQ Exp
-   69    | Exp . T_EQUIVALENCE Exp
-   70    | Exp . T_AND Exp
-   71    | Exp . T_OR Exp
+   51 RepeatUntil: T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON .
 
-    T_PLUS         shift, and go to state 99
-    T_MINUS        shift, and go to state 100
-    T_MULTIPLY     shift, and go to state 101
-    T_DIVIDE       shift, and go to state 102
-    T_LSS          shift, and go to state 103
-    T_LEQ          shift, and go to state 104
-    T_EQUIVALENCE  shift, and go to state 105
-    T_AND          shift, and go to state 106
-    T_OR           shift, and go to state 107
-    T_SEMICOLON    shift, and go to state 172
+    $default  reduce using rule 51 (RepeatUntil)
 
 
-State 171
+State 174
 
-   47 IfElse: T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Block . T_CLOSE_BRACKET
-   54 Block: Block . Statement Exp T_SEMICOLON
+   50 RepeatUntil: T_REPEAT T_OPEN_BRACKET Block T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp . T_SEMICOLON
+   62 Exp: Exp . T_PLUS Exp
+   63    | Exp . T_MINUS Exp
+   64    | Exp . T_MULTIPLY Exp
+   65    | Exp . T_DIVIDE Exp
+   66    | Exp . T_LSS Exp
+   67    | Exp . T_LEQ Exp
+   68    | Exp . T_EQUIVALENCE Exp
+   69    | Exp . T_AND Exp
+   70    | Exp . T_OR Exp
+
+    T_PLUS         shift, and go to state 100
+    T_MINUS        shift, and go to state 101
+    T_MULTIPLY     shift, and go to state 102
+    T_DIVIDE       shift, and go to state 103
+    T_LSS          shift, and go to state 104
+    T_LEQ          shift, and go to state 105
+    T_EQUIVALENCE  shift, and go to state 106
+    T_AND          shift, and go to state 107
+    T_OR           shift, and go to state 108
+    T_SEMICOLON    shift, and go to state 176
+
+
+State 175
+
+   46 IfElse: T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Block . T_CLOSE_BRACKET
+   53 Block: Block . Statement Exp T_SEMICOLON
 
     T_ID             shift, and go to state 50
-    T_CLOSE_BRACKET  shift, and go to state 173
+    T_CLOSE_BRACKET  shift, and go to state 177
     T_INTEGER        shift, and go to state 11
     T_PRINT          shift, and go to state 52
     T_IF             shift, and go to state 53
@@ -2925,61 +2898,61 @@ State 171
     T_BOOL           shift, and go to state 12
     T_REPEAT         shift, and go to state 55
 
-    T_PLUS         reduce using rule 39 (Assignment)
-    T_PLUS         [reduce using rule 44 (MethodCall)]
-    T_MINUS        reduce using rule 39 (Assignment)
-    T_MINUS        [reduce using rule 44 (MethodCall)]
-    T_MULTIPLY     reduce using rule 39 (Assignment)
-    T_MULTIPLY     [reduce using rule 44 (MethodCall)]
-    T_DIVIDE       reduce using rule 39 (Assignment)
-    T_DIVIDE       [reduce using rule 44 (MethodCall)]
-    T_LSS          reduce using rule 39 (Assignment)
-    T_LSS          [reduce using rule 44 (MethodCall)]
-    T_LEQ          reduce using rule 39 (Assignment)
-    T_LEQ          [reduce using rule 44 (MethodCall)]
-    T_EQUIVALENCE  reduce using rule 39 (Assignment)
-    T_EQUIVALENCE  [reduce using rule 44 (MethodCall)]
-    T_AND          reduce using rule 39 (Assignment)
-    T_AND          [reduce using rule 44 (MethodCall)]
-    T_OR           reduce using rule 39 (Assignment)
-    T_OR           [reduce using rule 44 (MethodCall)]
-    T_NOT          reduce using rule 39 (Assignment)
-    T_NOT          [reduce using rule 44 (MethodCall)]
-    T_ID           [reduce using rule 39 (Assignment)]
-    T_ID           [reduce using rule 44 (MethodCall)]
-    T_OPENPAREN    reduce using rule 39 (Assignment)
-    T_OPENPAREN    [reduce using rule 44 (MethodCall)]
-    T_NUMBER       reduce using rule 39 (Assignment)
-    T_NUMBER       [reduce using rule 44 (MethodCall)]
-    T_TRUE         reduce using rule 39 (Assignment)
-    T_TRUE         [reduce using rule 44 (MethodCall)]
-    T_FALSE        reduce using rule 39 (Assignment)
-    T_FALSE        [reduce using rule 44 (MethodCall)]
-    T_SEMICOLON    reduce using rule 39 (Assignment)
-    T_SEMICOLON    [reduce using rule 44 (MethodCall)]
-    T_NEW          reduce using rule 39 (Assignment)
-    T_NEW          [reduce using rule 44 (MethodCall)]
-    $default       reduce using rule 39 (Assignment)
+    T_PLUS         reduce using rule 38 (Assignment)
+    T_PLUS         [reduce using rule 43 (MethodCall)]
+    T_MINUS        reduce using rule 38 (Assignment)
+    T_MINUS        [reduce using rule 43 (MethodCall)]
+    T_MULTIPLY     reduce using rule 38 (Assignment)
+    T_MULTIPLY     [reduce using rule 43 (MethodCall)]
+    T_DIVIDE       reduce using rule 38 (Assignment)
+    T_DIVIDE       [reduce using rule 43 (MethodCall)]
+    T_LSS          reduce using rule 38 (Assignment)
+    T_LSS          [reduce using rule 43 (MethodCall)]
+    T_LEQ          reduce using rule 38 (Assignment)
+    T_LEQ          [reduce using rule 43 (MethodCall)]
+    T_EQUIVALENCE  reduce using rule 38 (Assignment)
+    T_EQUIVALENCE  [reduce using rule 43 (MethodCall)]
+    T_AND          reduce using rule 38 (Assignment)
+    T_AND          [reduce using rule 43 (MethodCall)]
+    T_OR           reduce using rule 38 (Assignment)
+    T_OR           [reduce using rule 43 (MethodCall)]
+    T_NOT          reduce using rule 38 (Assignment)
+    T_NOT          [reduce using rule 43 (MethodCall)]
+    T_ID           [reduce using rule 38 (Assignment)]
+    T_ID           [reduce using rule 43 (MethodCall)]
+    T_OPENPAREN    reduce using rule 38 (Assignment)
+    T_OPENPAREN    [reduce using rule 43 (MethodCall)]
+    T_NUMBER       reduce using rule 38 (Assignment)
+    T_NUMBER       [reduce using rule 43 (MethodCall)]
+    T_TRUE         reduce using rule 38 (Assignment)
+    T_TRUE         [reduce using rule 43 (MethodCall)]
+    T_FALSE        reduce using rule 38 (Assignment)
+    T_FALSE        [reduce using rule 43 (MethodCall)]
+    T_SEMICOLON    reduce using rule 38 (Assignment)
+    T_SEMICOLON    [reduce using rule 43 (MethodCall)]
+    T_NEW          reduce using rule 38 (Assignment)
+    T_NEW          [reduce using rule 43 (MethodCall)]
+    $default       reduce using rule 38 (Assignment)
 
-    Statement    go to state 141
-    Assignment   go to state 61
-    MethodCall   go to state 62
-    IfElse       go to state 63
-    While        go to state 64
-    RepeatUntil  go to state 65
-    Print        go to state 66
-    Type         go to state 86
-
-
-State 172
-
-   51 RepeatUntil: T_REPEAT T_OPEN_BRACKET Block T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON .
-
-    $default  reduce using rule 51 (RepeatUntil)
+    Statement    go to state 144
+    Assignment   go to state 60
+    MethodCall   go to state 61
+    IfElse       go to state 62
+    While        go to state 63
+    RepeatUntil  go to state 64
+    Print        go to state 65
+    Type         go to state 87
 
 
-State 173
+State 176
 
-   47 IfElse: T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Block T_CLOSE_BRACKET .
+   50 RepeatUntil: T_REPEAT T_OPEN_BRACKET Block T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON .
 
-    $default  reduce using rule 47 (IfElse)
+    $default  reduce using rule 50 (RepeatUntil)
+
+
+State 177
+
+   46 IfElse: T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Block T_CLOSE_BRACKET .
+
+    $default  reduce using rule 46 (IfElse)
