@@ -1,4 +1,4 @@
-c0 {
+c0 /*/ # bla -- @ !-! bla ^ bla ! **/{
     boolean m0;
     boolean m1;
     boolean m2;
@@ -8,4 +8,8 @@ c0 {
         l1 = 193;
         return 4;
         }
+    }
+c1 {
+    c0 m0;
+    boolean m1;
     }

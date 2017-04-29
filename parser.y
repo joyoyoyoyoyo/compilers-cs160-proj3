@@ -78,26 +78,26 @@ Start : Classes
       ;
 
 /* WRITME: Write your Bison grammar specification here */
-Classes : Classes ClassName | ClassName
+Classes : ClassName
 ;
 
 
-ClassName   : T_ID T_OPEN_BRACKET T_CLOSE_BRACKET T_SEMICOLON
-            | T_ID T_OPEN_BRACKET InnerScopeClass T_CLOSE_BRACKET T_SEMICOLON
-            | T_ID T_EXTENDS T_ID T_OPEN_BRACKET T_CLOSE_BRACKET T_SEMICOLON
-            | T_ID T_EXTENDS T_ID T_OPEN_BRACKET InnerScopeClass T_CLOSE_BRACKET T_SEMICOLON
+ClassName   : T_ID T_OPEN_BRACKET T_CLOSE_BRACKET
+            | T_ID T_OPEN_BRACKET InnerScopeClass T_CLOSE_BRACKET
+            | T_ID T_EXTENDS T_ID T_OPEN_BRACKET T_CLOSE_BRACKET
+            | T_ID T_EXTENDS T_ID T_OPEN_BRACKET InnerScopeClass T_CLOSE_BRACKET
             ;
 
-InnerScopeClass :   ClassMembers ClassMethods
+InnerScopeClass : ClassMembers ClassMethods
                 ;
 
-ClassMembers    :   Type T_ID T_SEMICOLON ClassMembers
-                |   Type T_ID T_SEMICOLON
+ClassMembers    : ClassMembers ClassMember
                 |
                 ;
 
-ClassMethods    :   MethodName ClassMethods
-                |   MethodName
+ClassMember     : Type T_ID T_SEMICOLON
+
+ClassMethods    : MethodName ClassMethods
                 |
                 ;
 
@@ -117,20 +117,22 @@ MethodName      : T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_LAMBDA ReturnType T
                 | T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_LAMBDA ReturnType T_OPEN_BRACKET T_CLOSE_BRACKET
                 | T_ID T_OPENPAREN T_CLOSEPAREN T_LAMBDA ReturnType T_OPEN_BRACKET InnerScopeMethod T_CLOSE_BRACKET
                 | T_ID T_OPENPAREN T_CLOSEPAREN T_LAMBDA ReturnType T_OPEN_BRACKET T_CLOSE_BRACKET
-
                 ;
 
 
-InnerScopeMethod: Declaration Statements ReturnStatement
-                | Declaration Statements
-                | Statements
+InnerScopeMethod: Declarations Statements
                 ;
 
+Declarations    : Declarations Declaration
+                |
 
 
-Declaration    : Declaration Type T_ID T_SEMICOLON
-               | Type T_ID T_SEMICOLON
-               ;
+Declaration     : Type IdentifierList T_SEMICOLON
+                ;
+
+IdentifierList  : IdentifierList T_COMMA T_ID
+                | T_ID
+                ;
 
 Statements      : Statements Statement
                 | Statement
@@ -148,6 +150,30 @@ Assignment      : Type T_ASSIGN Exp T_SEMICOLON
                 | T_ID T_DOT T_ID T_ASSIGN Exp T_SEMICOLON
                 |
                 ;
+
+Exp             : Exp T_PLUS Exp
+                | Exp T_MINUS Exp
+                | Exp T_MULTIPLY Exp
+                | Exp T_DIVIDE Exp
+                | Exp T_LSS Exp
+                | Exp T_LEQ Exp
+                | Exp T_EQUIVALENCE Exp
+                | Exp T_AND Exp
+                | Exp T_OR Exp
+                | T_NOT Exp
+                | T_MINUS Exp %prec T_UNARY
+                | T_ID
+                | T_ID T_DOT T_ID
+                | MethodCall
+                | T_OPENPAREN Exp T_CLOSEPAREN
+                | T_NUMBER
+                | T_TRUE
+                | T_FALSE
+                | T_NEW T_ID
+                | T_NEW T_ID T_OPENPAREN Parameters T_CLOSEPAREN
+                ;
+
+
 
 MethodCall      : T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
                 | T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON
@@ -197,12 +223,6 @@ ReturnType : Type | T_NONE
 
 
 
-Exp : Exp T_PLUS Exp | Exp T_MINUS Exp | Exp T_MULTIPLY Exp | Exp T_DIVIDE Exp
-| Exp T_LSS Exp | Exp T_LEQ Exp | Exp T_EQUIVALENCE Exp | Exp T_AND Exp | Exp T_OR Exp
-| T_NOT Exp | T_MINUS Exp %prec T_UNARY | T_ID | T_ID T_DOT T_ID
-| MethodCall | T_OPENPAREN Exp T_CLOSEPAREN | T_NUMBER | T_TRUE | T_FALSE
-| T_NEW T_ID | T_NEW T_ID T_OPENPAREN Parameters T_CLOSEPAREN
-;
 
 
 %%

@@ -12,16 +12,8 @@
 %}
 
 
-%x COMMENT
 
 %%
-        int line_num = 1;
-
-"/*"                    { BEGIN(COMMENT); }
-<COMMENT>[^*\n]*
-<COMMENT>"*"+[^*/\n]*
-<COMMENT>\n             ++line_num;
-<COMMENT>"*"+"/"        { BEGIN(INITIAL); }
 
 
 [ \r\t\n]               ;
@@ -39,7 +31,7 @@
 "and"                   {return T_AND;}
 "or"                    {return T_OR;}
 "not"                   {return T_NOT;}
-[a-zA-Z][a-zA-Z0-9]*    {return T_ID;}
+[a-zA-Z][a-zA-Z0-9]+    {return T_ID;}
 [0-9]+                  {return T_NUMBER;}
 "."                     {return T_DOT;}
 "("                     {return T_OPENPAREN;}
