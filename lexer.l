@@ -11,69 +11,54 @@
 	void yyerror(const char *);
 %}
 
-/* WRITEME: Write any definitions here. You can find information on
-            definitions here:
-            ftp://ftp.gnu.org/old-gnu/Manuals/flex-2.5.4/html_mono/flex.html#SEC10 */
 
-/* WRITEME: If you are going to use start conditions, write them here.
-            You can find more information on start conditions here:
-            ftp://ftp.gnu.org/old-gnu/Manuals/flex-2.5.4/html_mono/flex.html#SEC11
-            You will probably want to use exclusive conditions rather
-            than inclusive conditions (use the %x instead of the %s). */
 %x COMMENT
 
 %%
+        int line_num = 1;
 
-  /* WRITEME: Write your Flex token rules here */
-<INITIAL>"/*"     { BEGIN(COMMENT); }
-<COMMENT>[^*\n]*     ;
-<COMMENT>"*"+[^*/\n]* ;
-<COMMENT>"\n"     ;
-<COMMENT><<EOF>>  { yyerror("dangling comment"); }
-<COMMENT>"*/"     { BEGIN(INITIAL); }
+"/*"                    { BEGIN(COMMENT); }
+<COMMENT>[^*\n]*
+<COMMENT>"*"+[^*/\n]*
+<COMMENT>\n             ++line_num;
+<COMMENT>"*"+"/"        { BEGIN(INITIAL); }
 
-<<EOF>>          {return 0;}
-[a-zA-Z][a-zA-Z0-9]* {return T_ID;}
-[ \r\t\n]       {}
 
-"{" {return T_OPEN_BRACKET;}
-"}" {return T_CLOSE_BRACKET;}
-"," {return T_COMMA;}
-":" {return T_COLON;}
-"=" {return T_EQUAL;}
-"=="    {return T_EQUALEQ;}
-"<"     {return T_LESS_THAN;}
-">"     {return T_GREATER_THAN;}
-"<="    {return T_LESS_OR_EQ;}
-">="    {return T_GREATER_OR_EQ;}
-"+"         {return T_PLUS; }
-"-"         {return T_MINUS;}
-"*"         {return T_MULTIPLY;}
-"/"         {return T_DIVIDE;}
-"%"         {return T_MODULO;}
-"**"        {return T_EXP;}
-"("         {return T_OPENPAREN;}
-")"         {return T_CLOSEPAREN;}
-[0-9]+      {return T_NUMBER;}
-[0-9]+      {return T_INTEGER;}
-";"         {return T_SEMICOLON;}
-"."         {return T_DOTOP;}
+[ \r\t\n]               ;
+","                     {return T_COMMA;}
+"->"                    {return T_LAMBDA;}
+":"                     {return T_COLON;}
+"="                     {return T_ASSIGN;}
+"+"                     {return T_PLUS; }
+"-"                     {return T_MINUS;}
+"*"                     {return T_MULTIPLY;}
+"/"                     {return T_DIVIDE;}
+"<"                     {return T_LSS;}
+"<="                    {return T_LEQ;}
+"equals"                {return T_EQUIVALENCE;}
+"and"                   {return T_AND;}
+"or"                    {return T_OR;}
+"not"                   {return T_NOT;}
+[a-zA-Z][a-zA-Z0-9]*    {return T_ID;}
+[0-9]+                  {return T_NUMBER;}
+"."                     {return T_DOT;}
+"("                     {return T_OPENPAREN;}
+")"                     {return T_CLOSEPAREN;}
+"{"                     {return T_OPEN_BRACKET;}
+"}"                     {return T_CLOSE_BRACKET;}
+"integer"               {return T_INTEGER;}
+"true"                  {return T_TRUE;}
+"false"                 {return T_FALSE;}
+"boolean"               {return T_BOOL;}
+"new"                   {return T_NEW;}
+";"                     {return T_SEMICOLON;}
 
         /* Reserved keywords */
 "print"   {return T_PRINT;}
 "if"      {return T_IF;}
 "else"    {return T_ELSE;}
 "while"   {return T_WHILE;}
-"new"     {return T_NEW;}
-"integer" {return T_INTEGER;}
-"boolean" {return T_BOOL;}
 "none"    {return T_NONE;}
-"equals"  {return T_EQUALS;}
-"and"     {return T_AND;}
-"or"      {return T_OR;}
-"not"     {return T_NOT;}
-"true"    {return T_TRUE;}
-"false"   {return T_FALSE;}
 "extends" {return T_EXTENDS;}
 "repeat"  {return T_REPEAT;}
 "until"   {return T_UNTIL;}

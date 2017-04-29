@@ -1,0 +1,21 @@
+
+<INITIAL>"/*"     { BEGIN(COMMENT); }
+<COMMENT>[^*\n]*     ;
+<COMMENT>"*"+[^*/\n]* ;
+<COMMENT>"\n"     ;
+<COMMENT><<EOF>>  { yyerror("dangling comment"); }
+<COMMENT>"*/"     { BEGIN(INITIAL); }
+
+"/*"                    { BEGIN(COMMENT);}
+<COMMENT>"*/" {}
+"*/" { yyerror("dangling comment"); }
+
+
+<INITIAL>"/*"     { BEGIN(COMMENT); }
+<COMMENT>[^*\n]*     ;
+<COMMENT>"*"+[^*/\n]* ;
+<COMMENT>"\n"     ;
+<COMMENT><<EOF>>  { yyerror("dangling comment"); }
+<COMMENT>"*/"     { BEGIN(INITIAL); }
+
+<COMMENT_MULTI><<EOF>>
