@@ -1,0 +1,268 @@
+Nonterminals useless in grammar
+
+   Classes
+   Class
+   Members
+   Member
+   Type
+   Methods
+   Method
+   Args
+   Arg
+   Argument
+   ReturnType
+   Body
+   Declrs
+   Declr
+   Stmnts
+   Stmnt
+   Assignment
+   IFELSE
+   FORLOOP
+   Block
+   Return
+   Exp
+   MethodCall
+   Params
+   Params_P
+
+
+Terminals unused in grammar
+
+   T_PLUS
+   T_MINUS
+   T_MULTIPLY
+   T_DIVIDE
+   T_MODULO
+   T_EXP
+   T_OPENPAREN
+   T_CLOSEPAREN
+   T_NUMBER
+   T_SEMICOLON
+   T_NEWLN
+   T_EOF
+   T_EQUALEQ
+   T_EQUAL
+   T_ASSIGN
+   T_EQUIVALENCE
+   T_LESS_THAN
+   T_GREATER_THAN
+   T_LESS_OR_EQ
+   T_GREATER_OR_EQ
+   T_PRINT
+   T_RETURN
+   T_IF
+   T_ELSE
+   T_WHILE
+   T_NEW
+   T_INTEGER
+   T_BOOL
+   T_NONE
+   T_EQUALS
+   T_AND
+   T_OR
+   T_NOT
+   T_TRUE
+   T_FALSE
+   T_EXTENDS
+   T_REPEAT
+   T_UNTIL
+   T_MULT
+   T_LESS
+   T_LESSEQ
+   T_ID
+   T_OPEN_BRACKET
+   T_CLOSE_BRACKET
+   T_FOR
+   T_INT
+   T_DOTOP
+   T_COMMA
+   T_COLON
+
+
+Rules useless in grammar
+
+    2 Classes: Classes Class
+    3        | Class
+
+    4 Class: T_ID T_COLON T_ID T_OPEN_BRACKET Members Methods T_CLOSE_BRACKET
+    5      | T_ID T_OPEN_BRACKET Members Methods T_CLOSE_BRACKET
+
+    6 Members: Members Member
+    7        | %empty
+
+    8 Member: Type T_ID
+
+    9 Type: T_INT
+   10     | T_BOOL
+   11     | T_ID
+
+   12 Methods: Method Methods
+   13        | %empty
+
+   14 Method: T_ID T_OPENPAREN Args T_CLOSEPAREN T_COLON ReturnType T_OPEN_BRACKET Body T_CLOSE_BRACKET
+
+   15 Args: Arg
+   16     | %empty
+
+   17 Arg: Arg T_COMMA Argument
+   18    | Argument
+
+   19 Argument: Type T_ID
+
+   20 ReturnType: Type
+   21           | T_NONE
+
+   22 Body: Declrs Stmnts Return
+
+   23 Declrs: Declrs Type Declr
+   24       | %empty
+
+   25 Declr: Declr T_COMMA T_ID
+   26      | T_ID
+
+   27 Stmnts: Stmnt Stmnts
+   28       | %empty
+
+   29 Stmnt: Assignment
+   30      | MethodCall
+   31      | IFELSE
+   32      | FORLOOP
+   33      | T_PRINT Exp
+
+   34 Assignment: T_ID T_EQUAL Exp
+
+   35 IFELSE: T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET
+   36       | T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Block T_CLOSE_BRACKET
+
+   37 FORLOOP: T_FOR Assignment T_SEMICOLON Exp T_SEMICOLON Assignment T_OPEN_BRACKET Block T_CLOSE_BRACKET
+
+   38 Block: Block Stmnt
+   39      | Stmnt
+
+   40 Return: T_RETURN Exp
+   41       | %empty
+
+   42 Exp: Exp T_PLUS Exp
+   43    | Exp T_MINUS Exp
+   44    | Exp T_MULT Exp
+   45    | Exp T_DIVIDE Exp
+   46    | Exp T_LESS Exp
+   47    | Exp T_LESSEQ Exp
+   48    | Exp T_EQUALEQ Exp
+   49    | Exp T_AND Exp
+   50    | Exp T_OR Exp
+   51    | T_NOT Exp
+   52    | T_MINUS Exp
+   53    | T_ID
+   54    | T_ID T_DOTOP T_ID
+   55    | MethodCall
+   56    | T_OPENPAREN Exp T_CLOSEPAREN
+   57    | T_INTEGER
+   58    | T_TRUE
+   59    | T_FALSE
+   60    | T_NEW T_ID
+   61    | T_NEW T_ID T_OPENPAREN Params T_CLOSEPAREN
+
+   62 MethodCall: T_ID T_OPENPAREN Params T_CLOSEPAREN
+   63           | T_ID T_DOTOP T_ID T_OPENPAREN Params T_CLOSEPAREN
+
+   64 Params: Params_P
+   65       | %empty
+
+   66 Params_P: Params_P T_COMMA Exp
+   67         | Exp
+
+
+Grammar
+
+    0 $accept: Start $end
+
+    1 Start: %empty
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+T_PLUS (258)
+T_MINUS (259)
+T_MULTIPLY (260)
+T_DIVIDE (261)
+T_MODULO (262)
+T_EXP (263)
+T_OPENPAREN (264)
+T_CLOSEPAREN (265)
+T_NUMBER (266)
+T_SEMICOLON (267)
+T_NEWLN (268)
+T_EOF (269)
+T_EQUALEQ (270)
+T_EQUAL (271)
+T_ASSIGN (272)
+T_EQUIVALENCE (273)
+T_LESS_THAN (274)
+T_GREATER_THAN (275)
+T_LESS_OR_EQ (276)
+T_GREATER_OR_EQ (277)
+T_PRINT (278)
+T_RETURN (279)
+T_IF (280)
+T_ELSE (281)
+T_WHILE (282)
+T_NEW (283)
+T_INTEGER (284)
+T_BOOL (285)
+T_NONE (286)
+T_EQUALS (287)
+T_AND (288)
+T_OR (289)
+T_NOT (290)
+T_TRUE (291)
+T_FALSE (292)
+T_EXTENDS (293)
+T_REPEAT (294)
+T_UNTIL (295)
+T_MULT (296)
+T_LESS (297)
+T_LESSEQ (298)
+T_ID (299)
+T_OPEN_BRACKET (300)
+T_CLOSE_BRACKET (301)
+T_FOR (302)
+T_INT (303)
+T_DOTOP (304)
+T_COMMA (305)
+U_MINUS (306)
+T_COLON (307)
+
+
+Nonterminals, with rules where they appear
+
+$accept (53)
+    on left: 0
+Start (54)
+    on left: 1, on right: 0
+
+
+State 0
+
+    0 $accept: . Start $end
+
+    $default  reduce using rule 1 (Start)
+
+    Start  go to state 1
+
+
+State 1
+
+    0 $accept: Start . $end
+
+    $end  shift, and go to state 2
+
+
+State 2
+
+    0 $accept: Start $end .
+
+    $default  accept
