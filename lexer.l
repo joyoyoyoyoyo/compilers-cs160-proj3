@@ -20,8 +20,8 @@
 <COMMENT>[^*\n]*
 <COMMENT>"*"+[^*/\n]*
 <COMMENT>\n             lineNumbers++;
+<COMMENT><<EOF>>        { yyerror("dangling comment"); }
 <COMMENT>"*"+"/"        { BEGIN(INITIAL); }
-
 
 [ \r\t\n]+              ;
 ","                     {return T_COMMA;}
@@ -50,7 +50,7 @@
 "new"                   {return T_NEW;}
 ";"                     {return T_SEMICOLON;}
 
-        /* Reserved keywords */
+        /* Some reserved keywords */
 "print"                 {return T_PRINT;}
 "equals"                {return T_EQUIVALENCE;}
 "if"                    {return T_IF;}
