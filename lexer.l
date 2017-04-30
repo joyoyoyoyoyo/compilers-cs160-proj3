@@ -61,7 +61,7 @@
 "extends"               {return T_EXTENDS;}
 "repeat"                {return T_REPEAT;}
 "until"                 {return T_UNTIL;}
-"return"[ \r\t\n]+      {return T_RETURN;}
+"return"                {return T_RETURN;}
 [a-zA-Z][a-zA-Z0-9]*    {return T_ID;}
 
 .                       { yyerror("invalid character"); }
