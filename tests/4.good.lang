@@ -3,5 +3,6 @@ c0 {
     boolean m1;
     boolean m2;
     f0(a0 : integer) -> boolean {
+        l4 = 94;
         }
     }

@@ -1,0 +1,12 @@
+c0 {
+    f0() -> integer {
+        print 146;
+        print 73;
+        return false;
+        }
+    f1() -> none {
+        print 239 <= false;
+
+        }
+    }
+

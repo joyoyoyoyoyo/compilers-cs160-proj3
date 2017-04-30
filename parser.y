@@ -22,7 +22,7 @@
 %token T_AND
 %token T_OR
 %token T_NOT
-
+%token T_ASSIGN
 %token T_ID
 
 
@@ -37,7 +37,6 @@
 %token T_SEMICOLON
 %token T_NEWLN
 %token T_EOF
-%token T_ASSIGN
 
 %token T_NONE
 
@@ -78,15 +77,16 @@ Start : Classes
       ;
 
 /* WRITME: Write your Bison grammar specification here */
-Classes : ClassName
-;
+Classes         : Classes ClassName
+                | ClassName
+                ;
 
 
-ClassName   : T_ID T_OPEN_BRACKET T_CLOSE_BRACKET
-            | T_ID T_OPEN_BRACKET InnerScopeClass T_CLOSE_BRACKET
-            | T_ID T_EXTENDS T_ID T_OPEN_BRACKET T_CLOSE_BRACKET
-            | T_ID T_EXTENDS T_ID T_OPEN_BRACKET InnerScopeClass T_CLOSE_BRACKET
-            ;
+ClassName       : T_ID T_OPEN_BRACKET T_CLOSE_BRACKET
+                | T_ID T_OPEN_BRACKET InnerScopeClass T_CLOSE_BRACKET
+                | T_ID T_EXTENDS T_ID T_OPEN_BRACKET T_CLOSE_BRACKET
+                | T_ID T_EXTENDS T_ID T_OPEN_BRACKET InnerScopeClass T_CLOSE_BRACKET
+                ;
 
 InnerScopeClass : ClassMembers ClassMethods
                 ;
@@ -120,12 +120,12 @@ MethodName      : T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_LAMBDA ReturnType T
                 ;
 
 
-InnerScopeMethod: Declarations Statements
+InnerScopeMethod: Declarations Statements ReturnStatement
                 ;
 
 Declarations    : Declarations Declaration
                 |
-
+                ;
 
 Declaration     : Type IdentifierList T_SEMICOLON
                 ;
@@ -145,16 +145,18 @@ Statement       : Assignment
                 | While
                 | RepeatUntil
                 | Print
+                ;
 
-Assignment      : Type T_ASSIGN Exp T_SEMICOLON
-                | T_ID T_DOT T_ID T_ASSIGN Exp T_SEMICOLON
+ReturnStatement : T_RETURN Exp T_SEMICOLON
                 |
                 ;
 
-Exp             : Exp T_PLUS Exp
-                | Exp T_MINUS Exp
-                | Exp T_MULTIPLY Exp
-                | Exp T_DIVIDE Exp
+
+Assignment      : T_ID T_ASSIGN Exp T_SEMICOLON
+                | T_ID T_DOT T_ID T_ASSIGN Exp T_SEMICOLON
+                ;
+
+Exp             : Arithmetic
                 | Exp T_LSS Exp
                 | Exp T_LEQ Exp
                 | Exp T_EQUIVALENCE Exp
@@ -170,9 +172,21 @@ Exp             : Exp T_PLUS Exp
                 | T_TRUE
                 | T_FALSE
                 | T_NEW T_ID
-                | T_NEW T_ID T_OPENPAREN Parameters T_CLOSEPAREN
+                | T_NEW T_ID T_OPENPAREN ArgumentList T_CLOSEPAREN
                 ;
 
+Arguments       : Arguments T_COMMA Exp
+                | Exp
+                ;
+
+ArgumentList    : ArgumentList T_COMMA Exp
+                | Exp
+                ;
+
+Arithmetic      : Exp T_PLUS Exp
+                | Exp T_MINUS Exp
+                | Exp T_MULTIPLY Exp
+                | Exp T_DIVIDE Exp
 
 
 MethodCall      : T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
@@ -189,12 +203,13 @@ IfElse          : T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET
                 ;
 
 
-While           : T_WHILE Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET
+While           : T_WHILE Exp T_OPEN_BRACKET InnerScopeMethod T_CLOSE_BRACKET
                 | T_WHILE Exp T_OPEN_BRACKET T_CLOSE_BRACKET
                 ;
 
 RepeatUntil     : T_REPEAT T_OPEN_BRACKET Block T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
                 | T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
+                ;
 
 Print           : T_PRINT Exp T_SEMICOLON
                 ;
@@ -202,11 +217,6 @@ Print           : T_PRINT Exp T_SEMICOLON
 Block           : Block Statement Exp T_SEMICOLON
                 | Statement Exp T_SEMICOLON
                 ;
-
-ReturnStatement : T_RETURN Exp T_SEMICOLON
-                |
-                ;
-
 
 
 Type : T_INTEGER | T_BOOL | T_ID
