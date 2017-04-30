@@ -1,4 +1,4 @@
-/* Name: AngelOrtega
+/* Name: Angel Ortega
  * Perm: 5872858
  * Email: angelortega@umail.ucsb.edu
  *
@@ -15,4 +15,3 @@
  * Project 3: Flex and Bison: Scanner and Parser Generators
  *
  */
-// Email: angelortega@umail.ucsb.edu
