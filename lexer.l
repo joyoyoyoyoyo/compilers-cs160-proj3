@@ -30,6 +30,7 @@
 "="                     {return T_ASSIGN;}
 "+"                     {return T_PLUS; }
 "-"                     {return T_MINUS;}
+"-"                     {return T_UNARY;}
 "*"                     {return T_MULTIPLY;}
 "/"                     {return T_DIVIDE;}
 "<"                     {return T_LSS;}
