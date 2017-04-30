@@ -10,7 +10,6 @@ State 21 conflicts: 1 shift/reduce
 State 45 conflicts: 1 shift/reduce
 State 49 conflicts: 5 shift/reduce
 State 50 conflicts: 1 shift/reduce
-State 85 conflicts: 6 shift/reduce
 
 
 Grammar
@@ -117,13 +116,12 @@ Grammar
 
    74 While: T_WHILE Exp T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET
 
-   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET Statements T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
-   76            | T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
+   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
 
-   77 Print: T_PRINT Exp T_SEMICOLON
+   76 Print: T_PRINT Exp T_SEMICOLON
 
-   78 NotEmptyStment: NotEmptyStment Statement
-   79               | Statement
+   77 NotEmptyStment: NotEmptyStment Statement
+   78               | Statement
 
 
 Terminals, with rules where they appear
@@ -143,19 +141,19 @@ T_NOT (267) 51
 T_ASSIGN (268) 43 44
 T_ID (269) 4 5 6 7 10 16 21 22 23 24 25 30 31 43 44 53 54 60 61 68
     69 70 71
-T_OPENPAREN (270) 22 23 24 25 56 61 68 69 70 71 75 76
-T_CLOSEPAREN (271) 22 23 24 25 56 61 68 69 70 71 75 76
-T_OPEN_BRACKET (272) 4 5 6 7 22 23 24 25 72 73 74 75 76
-T_CLOSE_BRACKET (273) 4 5 6 7 22 23 24 25 72 73 74 75 76
+T_OPENPAREN (270) 22 23 24 25 56 61 68 69 70 71 75
+T_CLOSEPAREN (271) 22 23 24 25 56 61 68 69 70 71 75
+T_OPEN_BRACKET (272) 4 5 6 7 22 23 24 25 72 73 74 75
+T_CLOSE_BRACKET (273) 4 5 6 7 22 23 24 25 72 73 74 75
 T_INTEGER (274) 8
 T_NUMBER (275) 57
 T_TRUE (276) 58
 T_FALSE (277) 59
-T_SEMICOLON (278) 16 29 41 43 44 68 69 70 71 75 76 77
+T_SEMICOLON (278) 16 29 41 43 44 68 69 70 71 75 76
 T_NEWLN (279)
 T_EOF (280)
 T_NONE (281) 12
-T_PRINT (282) 77
+T_PRINT (282) 76
 T_RETURN (283) 41
 T_IF (284) 72 73
 T_ELSE (285) 73
@@ -163,8 +161,8 @@ T_WHILE (286) 74
 T_NEW (287) 60 61
 T_BOOL (288) 9
 T_EXTENDS (289) 6 7
-T_REPEAT (290) 75 76
-T_UNTIL (291) 75 76
+T_REPEAT (290) 75
+T_UNTIL (291) 75
 T_FOR (292)
 T_DOT (293) 44 54 70 71
 T_COMMA (294) 19 30 62
@@ -210,9 +208,9 @@ Declaration (58)
 IdentifierList (59)
     on left: 30 31, on right: 29 30
 Statements (60)
-    on left: 32 33 34, on right: 26 32 75
+    on left: 32 33 34, on right: 26 32
 Statement (61)
-    on left: 35 36 37 38 39 40, on right: 32 33 78 79
+    on left: 35 36 37 38 39 40, on right: 32 33 77 78
 ReturnStatement (62)
     on left: 41 42, on right: 26
 Assignment (63)
@@ -220,7 +218,7 @@ Assignment (63)
 Exp (64)
     on left: 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61, on right:
     41 43 44 46 47 48 49 50 51 52 56 62 63 64 65 66 67 72 73 74 75
-    76 77
+    76
 ArgumentList (65)
     on left: 62 63, on right: 61 62
 Arithmetic (66)
@@ -232,11 +230,11 @@ IfElse (68)
 While (69)
     on left: 74, on right: 38
 RepeatUntil (70)
-    on left: 75 76, on right: 39
+    on left: 75, on right: 39
 Print (71)
-    on left: 77, on right: 40
+    on left: 76, on right: 40
 NotEmptyStment (72)
-    on left: 78 79, on right: 72 73 74 78
+    on left: 77 78, on right: 72 73 74 75 77
 
 
 State 0
@@ -748,7 +746,7 @@ State 52
 
 State 53
 
-   77 Print: T_PRINT . Exp T_SEMICOLON
+   76 Print: T_PRINT . Exp T_SEMICOLON
 
     T_MINUS      shift, and go to state 72
     T_NOT        shift, and go to state 73
@@ -803,8 +801,7 @@ State 55
 
 State 56
 
-   75 RepeatUntil: T_REPEAT . T_OPEN_BRACKET Statements T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
-   76            | T_REPEAT . T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
+   75 RepeatUntil: T_REPEAT . T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
 
     T_OPEN_BRACKET  shift, and go to state 85
 
@@ -1060,7 +1057,7 @@ State 80
    65           | Exp . T_MINUS Exp
    66           | Exp . T_MULTIPLY Exp
    67           | Exp . T_DIVIDE Exp
-   77 Print: T_PRINT Exp . T_SEMICOLON
+   76 Print: T_PRINT Exp . T_SEMICOLON
 
     T_PLUS         shift, and go to state 102
     T_MINUS        shift, and go to state 103
@@ -1141,31 +1138,22 @@ State 84
 
 State 85
 
-   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET . Statements T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
-   76            | T_REPEAT T_OPEN_BRACKET . T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
+   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET . NotEmptyStment T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
 
-    T_ID             shift, and go to state 88
-    T_CLOSE_BRACKET  shift, and go to state 114
-    T_PRINT          shift, and go to state 53
-    T_IF             shift, and go to state 54
-    T_WHILE          shift, and go to state 55
-    T_REPEAT         shift, and go to state 56
+    T_ID      shift, and go to state 88
+    T_PRINT   shift, and go to state 53
+    T_IF      shift, and go to state 54
+    T_WHILE   shift, and go to state 55
+    T_REPEAT  shift, and go to state 56
 
-    T_ID             [reduce using rule 34 (Statements)]
-    T_CLOSE_BRACKET  [reduce using rule 34 (Statements)]
-    T_PRINT          [reduce using rule 34 (Statements)]
-    T_IF             [reduce using rule 34 (Statements)]
-    T_WHILE          [reduce using rule 34 (Statements)]
-    T_REPEAT         [reduce using rule 34 (Statements)]
-
-    Statements   go to state 115
-    Statement    go to state 60
-    Assignment   go to state 61
-    MethodCall   go to state 62
-    IfElse       go to state 63
-    While        go to state 64
-    RepeatUntil  go to state 65
-    Print        go to state 66
+    Statement       go to state 114
+    Assignment      go to state 61
+    MethodCall      go to state 62
+    IfElse          go to state 63
+    While           go to state 64
+    RepeatUntil     go to state 65
+    Print           go to state 66
+    NotEmptyStment  go to state 115
 
 
 State 86
@@ -1528,9 +1516,9 @@ State 110
 
 State 111
 
-   77 Print: T_PRINT Exp T_SEMICOLON .
+   76 Print: T_PRINT Exp T_SEMICOLON .
 
-    $default  reduce using rule 77 (Print)
+    $default  reduce using rule 76 (Print)
 
 
 State 112
@@ -1544,14 +1532,14 @@ State 112
     T_WHILE   shift, and go to state 55
     T_REPEAT  shift, and go to state 56
 
-    Statement       go to state 136
+    Statement       go to state 114
     Assignment      go to state 61
     MethodCall      go to state 62
     IfElse          go to state 63
     While           go to state 64
     RepeatUntil     go to state 65
     Print           go to state 66
-    NotEmptyStment  go to state 137
+    NotEmptyStment  go to state 136
 
 
 State 113
@@ -1564,36 +1552,36 @@ State 113
     T_WHILE   shift, and go to state 55
     T_REPEAT  shift, and go to state 56
 
-    Statement       go to state 136
+    Statement       go to state 114
     Assignment      go to state 61
     MethodCall      go to state 62
     IfElse          go to state 63
     While           go to state 64
     RepeatUntil     go to state 65
     Print           go to state 66
-    NotEmptyStment  go to state 138
+    NotEmptyStment  go to state 137
 
 
 State 114
 
-   76 RepeatUntil: T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET . T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
+   78 NotEmptyStment: Statement .
 
-    T_UNTIL  shift, and go to state 139
+    $default  reduce using rule 78 (NotEmptyStment)
 
 
 State 115
 
-   32 Statements: Statements . Statement
-   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET Statements . T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
+   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET NotEmptyStment . T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
+   77 NotEmptyStment: NotEmptyStment . Statement
 
     T_ID             shift, and go to state 88
-    T_CLOSE_BRACKET  shift, and go to state 140
+    T_CLOSE_BRACKET  shift, and go to state 138
     T_PRINT          shift, and go to state 53
     T_IF             shift, and go to state 54
     T_WHILE          shift, and go to state 55
     T_REPEAT         shift, and go to state 56
 
-    Statement    go to state 90
+    Statement    go to state 139
     Assignment   go to state 61
     MethodCall   go to state 62
     IfElse       go to state 63
@@ -1613,7 +1601,7 @@ State 117
 
    30 IdentifierList: IdentifierList T_COMMA . T_ID
 
-    T_ID  shift, and go to state 141
+    T_ID  shift, and go to state 140
 
 
 State 118
@@ -1638,7 +1626,7 @@ State 118
     T_EQUIVALENCE  shift, and go to state 108
     T_AND          shift, and go to state 109
     T_OR           shift, and go to state 110
-    T_SEMICOLON    shift, and go to state 142
+    T_SEMICOLON    shift, and go to state 141
 
 
 State 119
@@ -1659,7 +1647,7 @@ State 121
 
    68 MethodCall: T_ID T_OPENPAREN Parameters T_CLOSEPAREN . T_SEMICOLON
 
-    T_SEMICOLON  shift, and go to state 143
+    T_SEMICOLON  shift, and go to state 142
 
 
 State 122
@@ -1675,7 +1663,7 @@ State 122
     T_FALSE      shift, and go to state 78
     T_NEW        shift, and go to state 79
 
-    Exp         go to state 144
+    Exp         go to state 143
     Arithmetic  go to state 81
     MethodCall  go to state 82
 
@@ -1686,9 +1674,9 @@ State 123
    71           | T_ID T_DOT T_ID T_OPENPAREN . T_CLOSEPAREN T_SEMICOLON
 
     T_ID          shift, and go to state 28
-    T_CLOSEPAREN  shift, and go to state 145
+    T_CLOSEPAREN  shift, and go to state 144
 
-    Parameters  go to state 146
+    Parameters  go to state 145
     Parameter   go to state 31
 
 
@@ -1723,8 +1711,8 @@ State 126
     T_FALSE      shift, and go to state 78
     T_NEW        shift, and go to state 79
 
-    Exp           go to state 147
-    ArgumentList  go to state 148
+    Exp           go to state 146
+    ArgumentList  go to state 147
     Arithmetic    go to state 81
     MethodCall    go to state 82
 
@@ -1913,16 +1901,30 @@ State 135
 
 State 136
 
-   79 NotEmptyStment: Statement .
+   72 IfElse: T_IF Exp T_OPEN_BRACKET NotEmptyStment . T_CLOSE_BRACKET
+   73       | T_IF Exp T_OPEN_BRACKET NotEmptyStment . T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET
+   77 NotEmptyStment: NotEmptyStment . Statement
 
-    $default  reduce using rule 79 (NotEmptyStment)
+    T_ID             shift, and go to state 88
+    T_CLOSE_BRACKET  shift, and go to state 148
+    T_PRINT          shift, and go to state 53
+    T_IF             shift, and go to state 54
+    T_WHILE          shift, and go to state 55
+    T_REPEAT         shift, and go to state 56
+
+    Statement    go to state 139
+    Assignment   go to state 61
+    MethodCall   go to state 62
+    IfElse       go to state 63
+    While        go to state 64
+    RepeatUntil  go to state 65
+    Print        go to state 66
 
 
 State 137
 
-   72 IfElse: T_IF Exp T_OPEN_BRACKET NotEmptyStment . T_CLOSE_BRACKET
-   73       | T_IF Exp T_OPEN_BRACKET NotEmptyStment . T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET
-   78 NotEmptyStment: NotEmptyStment . Statement
+   74 While: T_WHILE Exp T_OPEN_BRACKET NotEmptyStment . T_CLOSE_BRACKET
+   77 NotEmptyStment: NotEmptyStment . Statement
 
     T_ID             shift, and go to state 88
     T_CLOSE_BRACKET  shift, and go to state 149
@@ -1931,7 +1933,7 @@ State 137
     T_WHILE          shift, and go to state 55
     T_REPEAT         shift, and go to state 56
 
-    Statement    go to state 150
+    Statement    go to state 139
     Assignment   go to state 61
     MethodCall   go to state 62
     IfElse       go to state 63
@@ -1942,61 +1944,40 @@ State 137
 
 State 138
 
-   74 While: T_WHILE Exp T_OPEN_BRACKET NotEmptyStment . T_CLOSE_BRACKET
-   78 NotEmptyStment: NotEmptyStment . Statement
+   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET . T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
 
-    T_ID             shift, and go to state 88
-    T_CLOSE_BRACKET  shift, and go to state 151
-    T_PRINT          shift, and go to state 53
-    T_IF             shift, and go to state 54
-    T_WHILE          shift, and go to state 55
-    T_REPEAT         shift, and go to state 56
-
-    Statement    go to state 150
-    Assignment   go to state 61
-    MethodCall   go to state 62
-    IfElse       go to state 63
-    While        go to state 64
-    RepeatUntil  go to state 65
-    Print        go to state 66
+    T_UNTIL  shift, and go to state 150
 
 
 State 139
 
-   76 RepeatUntil: T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL . T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
+   77 NotEmptyStment: NotEmptyStment Statement .
 
-    T_OPENPAREN  shift, and go to state 152
+    $default  reduce using rule 77 (NotEmptyStment)
 
 
 State 140
-
-   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET Statements T_CLOSE_BRACKET . T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
-
-    T_UNTIL  shift, and go to state 153
-
-
-State 141
 
    30 IdentifierList: IdentifierList T_COMMA T_ID .
 
     $default  reduce using rule 30 (IdentifierList)
 
 
-State 142
+State 141
 
    41 ReturnStatement: T_RETURN Exp T_SEMICOLON .
 
     $default  reduce using rule 41 (ReturnStatement)
 
 
-State 143
+State 142
 
    68 MethodCall: T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON .
 
     $default  reduce using rule 68 (MethodCall)
 
 
-State 144
+State 143
 
    44 Assignment: T_ID T_DOT T_ID T_ASSIGN Exp . T_SEMICOLON
    46 Exp: Exp . T_LSS Exp
@@ -2018,26 +1999,26 @@ State 144
     T_EQUIVALENCE  shift, and go to state 108
     T_AND          shift, and go to state 109
     T_OR           shift, and go to state 110
-    T_SEMICOLON    shift, and go to state 154
+    T_SEMICOLON    shift, and go to state 151
+
+
+State 144
+
+   71 MethodCall: T_ID T_DOT T_ID T_OPENPAREN T_CLOSEPAREN . T_SEMICOLON
+
+    T_SEMICOLON  shift, and go to state 152
 
 
 State 145
 
-   71 MethodCall: T_ID T_DOT T_ID T_OPENPAREN T_CLOSEPAREN . T_SEMICOLON
-
-    T_SEMICOLON  shift, and go to state 155
-
-
-State 146
-
    19 Parameters: Parameters . T_COMMA Parameter
    70 MethodCall: T_ID T_DOT T_ID T_OPENPAREN Parameters . T_CLOSEPAREN T_SEMICOLON
 
-    T_CLOSEPAREN  shift, and go to state 156
+    T_CLOSEPAREN  shift, and go to state 153
     T_COMMA       shift, and go to state 37
 
 
-State 147
+State 146
 
    46 Exp: Exp . T_LSS Exp
    47    | Exp . T_LEQ Exp
@@ -2063,93 +2044,68 @@ State 147
     $default  reduce using rule 63 (ArgumentList)
 
 
-State 148
+State 147
 
    61 Exp: T_NEW T_ID T_OPENPAREN ArgumentList . T_CLOSEPAREN
    62 ArgumentList: ArgumentList . T_COMMA Exp
 
-    T_CLOSEPAREN  shift, and go to state 157
-    T_COMMA       shift, and go to state 158
+    T_CLOSEPAREN  shift, and go to state 154
+    T_COMMA       shift, and go to state 155
 
 
-State 149
+State 148
 
    72 IfElse: T_IF Exp T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET .
    73       | T_IF Exp T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET . T_ELSE T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET
 
-    T_ELSE  shift, and go to state 159
+    T_ELSE  shift, and go to state 156
 
     $default  reduce using rule 72 (IfElse)
 
 
-State 150
-
-   78 NotEmptyStment: NotEmptyStment Statement .
-
-    $default  reduce using rule 78 (NotEmptyStment)
-
-
-State 151
+State 149
 
    74 While: T_WHILE Exp T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET .
 
     $default  reduce using rule 74 (While)
 
 
-State 152
+State 150
 
-   76 RepeatUntil: T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN . Exp T_CLOSEPAREN T_SEMICOLON
+   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET T_UNTIL . T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
 
-    T_MINUS      shift, and go to state 72
-    T_NOT        shift, and go to state 73
-    T_ID         shift, and go to state 74
-    T_OPENPAREN  shift, and go to state 75
-    T_NUMBER     shift, and go to state 76
-    T_TRUE       shift, and go to state 77
-    T_FALSE      shift, and go to state 78
-    T_NEW        shift, and go to state 79
-
-    Exp         go to state 160
-    Arithmetic  go to state 81
-    MethodCall  go to state 82
+    T_OPENPAREN  shift, and go to state 157
 
 
-State 153
-
-   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET Statements T_CLOSE_BRACKET T_UNTIL . T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
-
-    T_OPENPAREN  shift, and go to state 161
-
-
-State 154
+State 151
 
    44 Assignment: T_ID T_DOT T_ID T_ASSIGN Exp T_SEMICOLON .
 
     $default  reduce using rule 44 (Assignment)
 
 
-State 155
+State 152
 
    71 MethodCall: T_ID T_DOT T_ID T_OPENPAREN T_CLOSEPAREN T_SEMICOLON .
 
     $default  reduce using rule 71 (MethodCall)
 
 
-State 156
+State 153
 
    70 MethodCall: T_ID T_DOT T_ID T_OPENPAREN Parameters T_CLOSEPAREN . T_SEMICOLON
 
-    T_SEMICOLON  shift, and go to state 162
+    T_SEMICOLON  shift, and go to state 158
 
 
-State 157
+State 154
 
    61 Exp: T_NEW T_ID T_OPENPAREN ArgumentList T_CLOSEPAREN .
 
     $default  reduce using rule 61 (Exp)
 
 
-State 158
+State 155
 
    62 ArgumentList: ArgumentList T_COMMA . Exp
 
@@ -2162,46 +2118,21 @@ State 158
     T_FALSE      shift, and go to state 78
     T_NEW        shift, and go to state 79
 
-    Exp         go to state 163
+    Exp         go to state 159
     Arithmetic  go to state 81
     MethodCall  go to state 82
 
 
-State 159
+State 156
 
    73 IfElse: T_IF Exp T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET T_ELSE . T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET
 
-    T_OPEN_BRACKET  shift, and go to state 164
+    T_OPEN_BRACKET  shift, and go to state 160
 
 
-State 160
+State 157
 
-   46 Exp: Exp . T_LSS Exp
-   47    | Exp . T_LEQ Exp
-   48    | Exp . T_EQUIVALENCE Exp
-   49    | Exp . T_AND Exp
-   50    | Exp . T_OR Exp
-   64 Arithmetic: Exp . T_PLUS Exp
-   65           | Exp . T_MINUS Exp
-   66           | Exp . T_MULTIPLY Exp
-   67           | Exp . T_DIVIDE Exp
-   76 RepeatUntil: T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp . T_CLOSEPAREN T_SEMICOLON
-
-    T_PLUS         shift, and go to state 102
-    T_MINUS        shift, and go to state 103
-    T_MULTIPLY     shift, and go to state 104
-    T_DIVIDE       shift, and go to state 105
-    T_LSS          shift, and go to state 106
-    T_LEQ          shift, and go to state 107
-    T_EQUIVALENCE  shift, and go to state 108
-    T_AND          shift, and go to state 109
-    T_OR           shift, and go to state 110
-    T_CLOSEPAREN   shift, and go to state 165
-
-
-State 161
-
-   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET Statements T_CLOSE_BRACKET T_UNTIL T_OPENPAREN . Exp T_CLOSEPAREN T_SEMICOLON
+   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET T_UNTIL T_OPENPAREN . Exp T_CLOSEPAREN T_SEMICOLON
 
     T_MINUS      shift, and go to state 72
     T_NOT        shift, and go to state 73
@@ -2212,19 +2143,19 @@ State 161
     T_FALSE      shift, and go to state 78
     T_NEW        shift, and go to state 79
 
-    Exp         go to state 166
+    Exp         go to state 161
     Arithmetic  go to state 81
     MethodCall  go to state 82
 
 
-State 162
+State 158
 
    70 MethodCall: T_ID T_DOT T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON .
 
     $default  reduce using rule 70 (MethodCall)
 
 
-State 163
+State 159
 
    46 Exp: Exp . T_LSS Exp
    47    | Exp . T_LEQ Exp
@@ -2250,7 +2181,7 @@ State 163
     $default  reduce using rule 62 (ArgumentList)
 
 
-State 164
+State 160
 
    73 IfElse: T_IF Exp T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET . NotEmptyStment T_CLOSE_BRACKET
 
@@ -2260,24 +2191,17 @@ State 164
     T_WHILE   shift, and go to state 55
     T_REPEAT  shift, and go to state 56
 
-    Statement       go to state 136
+    Statement       go to state 114
     Assignment      go to state 61
     MethodCall      go to state 62
     IfElse          go to state 63
     While           go to state 64
     RepeatUntil     go to state 65
     Print           go to state 66
-    NotEmptyStment  go to state 167
+    NotEmptyStment  go to state 162
 
 
-State 165
-
-   76 RepeatUntil: T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN . T_SEMICOLON
-
-    T_SEMICOLON  shift, and go to state 168
-
-
-State 166
+State 161
 
    46 Exp: Exp . T_LSS Exp
    47    | Exp . T_LEQ Exp
@@ -2288,7 +2212,7 @@ State 166
    65           | Exp . T_MINUS Exp
    66           | Exp . T_MULTIPLY Exp
    67           | Exp . T_DIVIDE Exp
-   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET Statements T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp . T_CLOSEPAREN T_SEMICOLON
+   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp . T_CLOSEPAREN T_SEMICOLON
 
     T_PLUS         shift, and go to state 102
     T_MINUS        shift, and go to state 103
@@ -2299,22 +2223,22 @@ State 166
     T_EQUIVALENCE  shift, and go to state 108
     T_AND          shift, and go to state 109
     T_OR           shift, and go to state 110
-    T_CLOSEPAREN   shift, and go to state 169
+    T_CLOSEPAREN   shift, and go to state 163
 
 
-State 167
+State 162
 
    73 IfElse: T_IF Exp T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET NotEmptyStment . T_CLOSE_BRACKET
-   78 NotEmptyStment: NotEmptyStment . Statement
+   77 NotEmptyStment: NotEmptyStment . Statement
 
     T_ID             shift, and go to state 88
-    T_CLOSE_BRACKET  shift, and go to state 170
+    T_CLOSE_BRACKET  shift, and go to state 164
     T_PRINT          shift, and go to state 53
     T_IF             shift, and go to state 54
     T_WHILE          shift, and go to state 55
     T_REPEAT         shift, and go to state 56
 
-    Statement    go to state 150
+    Statement    go to state 139
     Assignment   go to state 61
     MethodCall   go to state 62
     IfElse       go to state 63
@@ -2323,29 +2247,22 @@ State 167
     Print        go to state 66
 
 
-State 168
+State 163
 
-   76 RepeatUntil: T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON .
+   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN . T_SEMICOLON
 
-    $default  reduce using rule 76 (RepeatUntil)
-
-
-State 169
-
-   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET Statements T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN . T_SEMICOLON
-
-    T_SEMICOLON  shift, and go to state 171
+    T_SEMICOLON  shift, and go to state 165
 
 
-State 170
+State 164
 
    73 IfElse: T_IF Exp T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET .
 
     $default  reduce using rule 73 (IfElse)
 
 
-State 171
+State 165
 
-   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET Statements T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON .
+   75 RepeatUntil: T_REPEAT T_OPEN_BRACKET NotEmptyStment T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON .
 
     $default  reduce using rule 75 (RepeatUntil)
