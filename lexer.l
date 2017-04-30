@@ -14,16 +14,16 @@
 %x COMMENT
 
 %%
-        int line_num = 1;
+        int lineNumbers = 1;
 
 "/*"                    { BEGIN(COMMENT); }
 <COMMENT>[^*\n]*
 <COMMENT>"*"+[^*/\n]*
-<COMMENT>\n             ++line_num;
+<COMMENT>\n             lineNumbers++;
 <COMMENT>"*"+"/"        { BEGIN(INITIAL); }
 
 
-[ \r\t\n]               ;
+[ \r\t\n]+              ;
 ","                     {return T_COMMA;}
 "->"                    {return T_LAMBDA;}
 ":"                     {return T_COLON;}
@@ -34,7 +34,6 @@
 "/"                     {return T_DIVIDE;}
 "<"                     {return T_LSS;}
 "<="                    {return T_LEQ;}
-"equals"                {return T_EQUIVALENCE;}
 "and"                   {return T_AND;}
 "or"                    {return T_OR;}
 "not"                   {return T_NOT;}
@@ -52,18 +51,19 @@
 ";"                     {return T_SEMICOLON;}
 
         /* Reserved keywords */
-"print"   {return T_PRINT;}
-"if"      {return T_IF;}
-"else"    {return T_ELSE;}
-"while"   {return T_WHILE;}
-"none"    {return T_NONE;}
-"extends" {return T_EXTENDS;}
-"repeat"  {return T_REPEAT;}
-"until"   {return T_UNTIL;}
-"return"[ \r\t\n]+  {return T_RETURN;}
-.         { yyerror("invalid character"); }
+"print"                 {return T_PRINT;}
+"equals"                {return T_EQUIVALENCE;}
+"if"                    {return T_IF;}
+"else"                  {return T_ELSE;}
+"while"                 {return T_WHILE;}
+"none"                  {return T_NONE;}
+"extends"               {return T_EXTENDS;}
+"repeat"                {return T_REPEAT;}
+"until"                 {return T_UNTIL;}
+"return"[ \r\t\n]+      {return T_RETURN;}
+[a-zA-Z][a-zA-Z0-9]*    {return T_ID;}
 
-[a-zA-Z][a-zA-Z0-9]+    {return T_ID;}
+.                       { yyerror("invalid character"); }
 
 
 %%

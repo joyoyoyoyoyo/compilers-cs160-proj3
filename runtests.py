@@ -20,10 +20,10 @@ class NameOrder(object):
 			return int(firstNumber) < int(secondNumber)
 
 def runTests(verbose):
-	if (not path.isdir("tests/")):
+	if (not path.isdir("tests-cs160/")):
 		print("No tests directory.")
 		return
-	files = sorted(["tests/" + f for f in listdir('tests') if path.isfile("tests/" + f) and f.endswith(".lang")], key=NameOrder)
+	files = sorted(["tests-cs160/" + f for f in listdir('tests-cs160') if path.isfile("tests-cs160/" + f) and f.endswith(".lang")], key=NameOrder)
 
 	for f in files:
 		infile = open(f, 'r')

@@ -196,22 +196,43 @@ MethodCall      : T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_SEMICOLON
                 |
                 ;
 
-IfElse          : T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET
+IfElse          : T_IF Exp T_OPEN_BRACKET Statements T_CLOSE_BRACKET
                 | T_IF Exp T_OPEN_BRACKET T_CLOSE_BRACKET
-                | T_IF Exp T_OPEN_BRACKET Block T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Block T_CLOSE_BRACKET
+                | T_IF Exp T_OPEN_BRACKET Statements T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET Statements T_CLOSE_BRACKET
                 | T_IF Exp T_OPEN_BRACKET T_CLOSE_BRACKET T_ELSE T_OPEN_BRACKET T_CLOSE_BRACKET
                 ;
 
 
-While           : T_WHILE Exp T_OPEN_BRACKET InnerScopeMethod T_CLOSE_BRACKET
+While           : T_WHILE Exp T_OPEN_BRACKET Statements T_CLOSE_BRACKET
                 | T_WHILE Exp T_OPEN_BRACKET T_CLOSE_BRACKET
                 ;
 
-RepeatUntil     : T_REPEAT T_OPEN_BRACKET Block T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
-                | T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_SEMICOLON
+RepeatUntil     : T_REPEAT T_OPEN_BRACKET Statements T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
+                | T_REPEAT T_OPEN_BRACKET T_CLOSE_BRACKET T_UNTIL T_OPENPAREN Exp T_CLOSEPAREN T_SEMICOLON
                 ;
 
 Print           : T_PRINT Exp T_SEMICOLON
+                ;
+
+SingleExp       : Exp T_PLUS Exp
+                | Exp T_MINUS Exp
+                | Exp T_MULTIPLY Exp
+                | Exp T_DIVIDE Exp
+                | Exp T_LEQ Exp
+                | Exp T_EQUIVALENCE Exp
+                | Exp T_AND Exp
+                | Exp T_OR Exp
+                | T_NOT Exp
+                | T_MINUS Exp %prec T_UNARY
+                | T_ID
+                | T_ID T_DOT T_ID
+                | MethodCall
+                | T_OPENPAREN Exp T_CLOSEPAREN
+                | T_NUMBER
+                | T_TRUE
+                | T_FALSE
+                | T_NEW T_ID
+                | T_NEW T_ID T_OPENPAREN ArgumentList T_CLOSEPAREN
                 ;
 
 Block           : Block Statement Exp T_SEMICOLON
